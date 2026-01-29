@@ -1,0 +1,45 @@
+{
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "minified": true,
+    "enhance": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "postcss": true,
+    "coverView": true,
+    "showShadowRootInWxmlPanel": true,
+    "useIsolateContext": true,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "appid": "wx69adc3ad684337b7",
+  "compileType": "miniprogram",
+  "libVersion": "3.12.1",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "projectname": "Sport",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {}
+}

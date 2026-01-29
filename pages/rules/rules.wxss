@@ -1,0 +1,7 @@
+.container { 
+  padding: 16px
+}
+.section text{
+  display: block;
+  margin: 6px 0
+}

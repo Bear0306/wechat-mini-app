@@ -1,0 +1,287 @@
+.page{
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  min-height: 100vh;
+  background: #f6f7f9
+}
+.disclaimer-card {
+  display: flex;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  margin-top: 10rpx;
+  margin-bottom: 0rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.08);
+  border: 1rpx solid #f1f1f1;
+}
+.disclaimer-text {
+  flex: 1;
+  color: #ff0000;
+  font-size: 20rpx;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  display: block;
+}
+/* me card */
+.me-card{
+  display: flex; 
+  align-items: center;
+  margin: 20rpx; 
+  padding: 20rpx;
+  background:#fff; 
+  border-radius: 16rpx;
+  box-shadow: 0 8rpx 20rpx rgba(0,0,0,.06);
+}
+
+.avatar-wrap{
+  position: relative;
+  width: 152rpx; 
+  height: 152rpx;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.vip-frame{
+  position: absolute; 
+  width: 152rpx; 
+  z-index: 2;
+}
+.gold {
+  top: -9rpx;
+}
+.silver {
+  top: 17rpx;
+}
+.bronze {
+  scale: 0.9;
+  top: 0rpx;
+}
+.avatar{
+  width: 120rpx; 
+  height: 120rpx; 
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.vip-badge{
+  position: absolute; 
+  bottom: 0; 
+  left: 50%; 
+  transform: translateX(-50%);
+  padding: 2rpx 12rpx; 
+  font-size: 18rpx; 
+  line-height: 28rpx;
+  color:#fff; 
+  border-radius: 999rpx;
+  z-index: 3;
+}
+
+.me-main{ flex:1; margin-left: 15rpx; margin-top: 40rpx;}
+
+.me-top{ display:flex; align-items:center; justify-content:space-between; }
+.me-name{ font-size: 32rpx; font-weight: 800; color:#202124; line-height: 36rpx; }
+
+.me-metrics{ display:flex; gap: 15rpx; }
+.metric{ display:flex; flex-direction:column; align-items:center; margin-right: 30rpx;}
+.metric-num{ color:#19be6b; font-weight:800; font-size: 36rpx; line-height: 36rpx; }
+.metric-label{ color:#8b8e93; font-size: 22rpx; margin-top: 10rpx;}
+.metric-right {
+  align-items: right;
+}
+.me-sub{ margin-top: 6rpx; color:#8b8e93; font-size: 22rpx; }
+
+.vip-line{ margin-top: 8rpx; font-size: 24rpx; }
+.vip-line.muted{ color:#9aa0a6; }
+.vip-name{ font-weight: 700; }
+.vip-date{ margin-left: 6rpx; }
+
+/* level 1 seg */
+.seg{display:flex;margin:16rpx 20rpx;background:#eef0f3;border-radius:999rpx;overflow:hidden;box-shadow:inset 0 0 0 1rpx rgba(0,0,0,.04)}
+.seg-item{flex:1;text-align:center;padding:20rpx 0;color:#8b8e93;font-weight:600}
+.seg-item.active{background:#19be6b;color:#fff;border-radius:999rpx;box-shadow:0 6rpx 14rpx rgba(25,190,107,.28)}
+
+/* level 2 tabs */
+.tabs2{display:flex;margin:10rpx 20rpx 8rpx;background:#fff;border-radius:12rpx;padding:8rpx 6rpx;box-shadow:0 6rpx 14rpx rgba(0,0,0,.06)}
+.tab2{position:relative;flex:1;text-align:center;padding:16rpx 0;color:#6b6f75;font-weight:600}
+.tab2.on{color:#19be6b}
+.underline{position:absolute;bottom:6rpx;left:25%;right:25%;height:6rpx;border-radius:6rpx;background:#19be6b}
+.tab2.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+/* list container */
+.list{
+  height: calc(100vh - 520rpx); 
+  margin: 0 20rpx 20rpx;
+}
+
+/* ongoing rows */
+.rank-row{
+  display: flex; 
+  align-items: center;
+  width: 95%;
+  background: #fff; border-radius:16rpx;
+  padding: 16rpx; 
+  margin-bottom: 12rpx;
+  box-shadow: 0 6rpx 14rpx rgba(0,0,0,.05);
+  box-sizing: border-box;
+}
+
+/* left: fixed width, center everything */
+.rank-left{
+  width:80rpx; min-width:80rpx;
+  display:flex; align-items:center; justify-content:center;
+}
+.medal{ width:40rpx; height:40rpx; }
+.rank-num{ 
+  width:auto; 
+  min-width:40rpx; 
+  text-align:center; 
+  color:#8b8e93; 
+  font-weight:700; 
+  font-size: 40rpx;
+}
+.rank-1 { color: #ff6a00; }
+.rank-2 { color: #8355A1; }
+.rank-3 { color: #0BC15D; }
+.rank-center{
+  flex:1; 
+  display:flex; 
+  align-items: center; 
+  gap: 12rpx;
+  text-align: center;
+  overflow: hidden;
+  justify-content: center;
+}
+.row-avatar{
+  width: 56rpx; 
+  height: 56rpx; 
+  border-radius: 50%; 
+  background:#eee; 
+}
+.row-name{ 
+  color: #333; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  font-size: 30rpx;
+}
+
+.rank-right{
+  display: flex; 
+  align-items: baseline; 
+  justify-content: flex-end;
+  min-width: 180rpx; 
+  text-align: right; 
+  gap: 6rpx;
+}
+.steps{ 
+  color: #ff6a00; 
+  font-weight: 800; 
+  font-size: 50rpx; 
+}
+.unit{ 
+  color: #9aa0a6; 
+  font-size: 30rpx; 
+}
+
+/* keep your me-row highlight */
+.me-row{
+  position: absolute;
+  bottom: 5rpx;
+  margin: 0 20rpx;
+  z-index: 10; 
+  background:#e9f9ef; 
+  border:1rpx solid #bde7cd; 
+}
+
+/* ended cards */
+.ended-card{
+  display: flex;
+  width: 89%;
+  background: #fff; 
+  border-radius: 16rpx;
+  margin: 12rpx 0; 
+  padding: 22rpx;
+  box-shadow: 0 6rpx 14rpx rgba(0,0,0,.05);
+  gap: 60rpx;
+}
+.ended-left{ 
+  width: 50%;
+  margin-left: 6%;
+}
+.ended-row1{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx
+}
+.ended-title{font-size:30rpx;font-weight:700;color:#202124;max-width:68%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ended-date{font-size:24rpx;color:#8b8e93;white-space:nowrap}
+.ended-sub{display:block;color:#6b6f75;margin-top:8rpx;font-size:24rpx}
+
+/* 胶囊按钮（统一尺寸/弧度/字重） */
+/* Right column should auto-size and hug the button */
+.ended-right{
+  display:flex; 
+  width: 30%;
+}
+
+/* Pill buttons: fixed height + line-height, min width, no % width */
+.pill{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width: 200rpx; 
+  height:80rpx; 
+  line-height: 64rpx;
+  padding:0 28rpx; 
+  border: none; 
+  border-radius: 9999rpx;
+  font-size: 30rpx; 
+  font-weight:600;
+}
+button.pill::after{ border:none; }
+
+/* Solid blue – 查看排名 */
+.pill-blue{
+  background: #65B8FF;
+  color: #fff;
+  box-shadow: 0 6rpx 14rpx rgba(59,130,246,.22);
+}
+
+/* Solid green – 领取奖励 */
+.pill-green{
+  background: #07C160;
+  color: #fff;
+  box-shadow: 0 6
+}
+/* Soft blue – 已领取 → 查看奖励（若想统一深蓝可直接用 .pill-blue） */
+.pill-blue-outline{
+  background: #E8F2FF;
+  color: #3B82F6;
+}
+
+/* 二级 Tab 的禁用态（保留） */
+.tab2.disabled{ opacity:.4; pointer-events:none; }
+
+/* make tab disabled look muted */
+.loading{color:#999;text-align:center;margin:18rpx 0}
+
+/* modal */
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:999}
+.modal{width:88%;background:#fff;border-radius:16rpx;padding:24rpx;box-shadow:0 12rpx 30rpx rgba(0,0,0,.25)}
+.modal-title{text-align:center;font-size:30rpx;font-weight:700}
+.modal-body{margin-top:16rpx}
+.snap-title{display:block;margin-top:8rpx;color:#555}
+.snap-row{display:flex;justify-content:space-between;margin-top:8rpx}
+.snap-rank{width:60rpx;text-align:center}
+.modal-actions{display:flex;justify-content:center;margin-top:22rpx}

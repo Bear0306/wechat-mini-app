@@ -1,0 +1,10 @@
+<scroll-view class="container" scroll-y style="height:90vh">
+  <view class="section">
+    <text>规则与免责声明</text>
+    <text>• 参赛者需自行评估身体状况，平台方不承担运动损伤责任！禁止在危险区域运动，参赛者因场地选择不当受伤或造成损失的自行负责。</text>
+    <text>• 统计时间：06:00-20:00；22:00-次日06:00不统计。</text>
+    <text>• 未成年人：12-18周岁仅参加少年组，奖品为实物（文具/书籍），不开放会员购买。</text>
+    <text>• 12岁以下、65岁以上不可参赛；60岁以上不可购买会员。</text>
+  </view>
+  <button bindtap="agree">我已阅读并同意</button>
+</scroll-view>

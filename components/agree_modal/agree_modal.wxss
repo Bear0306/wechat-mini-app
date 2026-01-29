@@ -1,0 +1,103 @@
+/* 弹窗 */
+.m-mask{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+
+/* 卡片 */
+.m-card{
+  width: 88%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx 22rpx;
+  box-shadow: 0 20rpx 40rpx rgba(0,0,0,.25);
+}
+.m-title{
+  text-align: center;
+  font-size: 40rpx; font-weight: 700;
+  color: #333;
+}
+.m-desc{
+  margin-top: 15rpx;
+  color: #e33;                 /* 红色文案 */
+  line-height: 1.5;
+  font-weight: 600;
+  font-size: 30rpx;
+  text-align: center;
+}
+.m-notify{
+  margin-top: 15rpx;
+  color: #16c06e;                 /* 红色文案 */
+  line-height: 1.5;
+  font-weight: 600;
+  font-size: 30rpx;
+  letter-spacing: 3rpx;
+  text-align: center;
+}
+
+/* 勾选 */
+.m-check{
+  margin-top: 20rpx;
+  display: flex; align-items: center; justify-content: center;
+  gap: 12rpx;
+}
+.m-check-icon{ width: 36rpx; height: 36rpx; }
+.m-check-txt{ color:#888; font-size: 26rpx; }
+
+
+/* 按钮 */
+.m-actions{
+  display: flex; 
+  justify-content: center; 
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+
+/* 分享提示区 */
+/* 区块外层，与设计同一行、左右分布 */
+.share-block {
+  margin-top: 16rpx;
+  padding: 8rpx 4rpx 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 左侧两行文字 */
+.share-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  width: 80%;
+  text-align: right;
+}
+.share-left-top {
+  font-size: 28rpx;
+  color: #16c06e;          /* 绿色高亮 */
+  font-weight: 600;
+}
+.share-left-sub {
+  font-size: 24rpx;
+  color: #b0b0b0;          /* 灰色说明 */
+}
+
+/* 右侧图标按钮（无边框、透明背景） */
+.share-right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  background: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+.share-icon{
+  width: 48rpx;            /* 按设计大小微调 */
+  height: 48rpx;
+}
+.share-right-text{
+  font-size: 24rpx;
+  color: #b0b0b0;          /* 与左侧副标题一致的灰色 */
+}

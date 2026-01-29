@@ -1,0 +1,27 @@
+<view class="hub-root">
+  <!-- Floating CTA stack; asks hub to open Quota -->
+  <zero-cta
+    always="{{_joinCount==0 || false}}"
+    bind:openquota="openQuotaFromCta"
+  />
+
+  <!-- Quota modal is fully controlled by the hub -->
+  <quota-modal 
+    id="quota"
+    show="{{quota.show}}"
+    count="{{_joinCount}}"
+    ads="{{quota.ads}}"
+    referrals="{{quota.referrals}}"
+    membership="{{quota.membership}}"
+    bind:close="closeQuota"
+    bind:watch="startWatchAd"
+    bind:share="goInvite"
+    bind:buy="goMembership"
+  />
+
+  <!-- Share chooser; hub updates chosen image & re-emits upward if needed -->
+  <share-modal
+    id="shareModal"
+    show="{{share.show}}"
+  />
+</view>

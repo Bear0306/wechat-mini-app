@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/participate/participate",
+    "pages/leaderboard/leaderboard",
+    "pages/rules/rules",
+    "pages/profile/profile",
+    "components/claim_modal/claim_modal",
+    "components/zero_cta/zero_cta",
+    "components/quota_modal/quota_modal",
+    "components/vip_modal/vip_modal",
+    "components/agree_modal/agree_modal",
+    "components/share_modal/share_modal",
+    "components/modals-hub/modals-hub"
+  ],
+  "window": {
+    "navigationBarTitleText": "运动竞赛",
+    "navigationStyle": "default",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "light"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取城市级定位以划分参赛区域"
+    }
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/icon1.png",
+        "selectedIconPath": "assets/icons/icon.png"
+      },
+      {
+        "pagePath": "pages/participate/participate",
+        "text": "挑战页",
+        "iconPath": "assets/icons/icon2.png",
+        "selectedIconPath": "assets/icons/icon3.png"
+      },
+      {
+        "pagePath": "pages/leaderboard/leaderboard",
+        "text": "我的",
+        "iconPath": "assets/icons/icon4.png",
+        "selectedIconPath": "assets/icons/icon5.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

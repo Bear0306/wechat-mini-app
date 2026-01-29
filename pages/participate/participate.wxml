@@ -1,0 +1,61 @@
+<view class="page">
+
+  <!-- 顶部标题 -->
+  <view class="disclaimer-card">
+    <text class="disclaimer-text">参赛者请自行评估身体状况，平台不承担运动损伤、伤责任！</text>
+    <text class="disclaimer-text">禁止在危险区域运动，因场地选择不当造成损失的自行负责！</text>
+  </view>
+  <!-- 列表 -->
+  <scroll-view scroll-y class="list">
+    <block wx:for="{{displayItems}}" wx:key="__key">
+      <!-- 普通挑战卡片 -->
+      <view wx:if="{{item.__type==='contest'}}" class="card">
+        <view class="card-left">
+          <text class="card-title">{{item.title}}({{item.statusText}})</text>
+          <text class="card-date">{{item.dateText}}</text>
+        </view>
+        <view class="card-right">
+          <!-- 结束或进行中：仅查看排名（跳“我的”） -->
+          <text wx:if="{{item.status=='ended' || item.status=='ongoing'}}"
+                class="btn-text ghost"
+                data-id="{{item.id}}"
+                data-type="{{item.frequency}}"
+                data-status="{{item.status}}"
+                bindtap="goMyRanking">
+            查看排名
+          </text>
+          <text wx:if="{{item.status==='upcoming' && item.joined}}"
+                class="btn-text show" size="mini" data-id="{{item.id}}">
+            已报名
+          </text>
+          <!-- 未开始：需要声明弹窗 -->
+          <button wx:elif="{{item.status === 'upcoming' && !item.joined}}"
+                  class="btn primary btn-round" size="mini"
+                  bindtap="openAgreeModal" data-id="{{item.id}}">
+            参与挑战
+          </button>
+        </view>
+      </view>
+
+      <!-- 广告卡片（可点击） -->
+      <view wx:elif="{{item.__type==='ad'}}" class="ad-card" bindtap="openAd" data-link="{{item.link}}">
+        <image class="ad-img" src="{{item.img}}" mode="aspectFill" />
+        <view class="ad-tag">广告</view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <!-- 参与声明弹窗 -->
+  <agree-modal
+    show="{{agreeModal.show}}"
+    contestId="{{agreeModal.contestId}}"
+    joinCount="{{agreeModal.joinCount}}"
+    bind:close="closeAgree"
+    bind:confirm="confirmParticipate"
+    bind:goShare="goShare"
+  />
+
+  <modals-hub id="modalsHub"
+              joinCount="{{modalHub.joinCount}}"
+              viewShare="{{modalHub.viewShare}}"/>
+</view>

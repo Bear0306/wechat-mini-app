@@ -1,0 +1,44 @@
+<view wx:if="{{show}}" class="m-mask" catchtouchmove="stopScroll">
+  <view class="m-card">
+    <view class="m-title">声明</view>
+
+    <view class="m-desc">
+      “参赛者请自行评估身体状况，平台不承担运动损伤责任！ 禁止在危险区域运动，参赛者因场地选择不当或造成损失的自行负责！”
+    </view>
+
+    <!-- 勾选区（图片复选框） -->
+    <view class="m-check" bindtap="toggleAgree">
+      <image class="m-check-icon"
+             src="{{agreed ? '/assets/challengepage/Btn2.png' : '/assets/challengepage/Btn1.png'}}" />
+      <text class="m-check-txt">我已阅读并同意</text>
+    </view>
+
+    <!-- 按钮区 -->
+    <view class="m-actions">
+      <button class="btn ghost" bindtap="close">取消</button>
+      <button class="btn primary {{agreed & joinCount>0 ? '' : 'disabled'}}"
+              disabled="{{!agreed}}"
+              bindtap="confirm">
+        参与挑战
+      </button>
+    </view>
+
+    <view class="m-notify">
+      <text>每天打开一次，成绩更准确呢！</text>
+    </view>
+
+    <!-- 分享增加次数提示 -->
+    <view class="share-block">
+      <view class="share-left">
+        <text class="share-left-top">剩余挑战次数：{{joinCount}}次</text>
+        <text class="share-left-sub">点击分享增加次数</text>
+      </view>
+
+      <!-- 右侧图标 + 文案；点击触发分享 -->
+      <button class="share-right" bindtap="goShare">
+        <image class="share-icon" src="/assets/challengepage/Share.png" mode="aspectFit" />
+        <text class="share-right-text">分享</text>
+      </button>
+    </view>
+  </view>
+</view>

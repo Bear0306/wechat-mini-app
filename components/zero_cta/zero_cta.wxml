@@ -1,0 +1,37 @@
+<!-- ZERO CTA (always-on floating action on the right) -->
+<view class="zero-root" style="right: {{right}}rpx; top: {{top}}rpx;" catchtouchmove="noop">
+
+  <!-- Collapsed: only Btn_4 -->
+  <block wx:if="{{!expanded}}">
+    <view class="zero-row" style="margin-top: {{btnHeight/2.0}}rpx;">
+      <image
+        class="zero-row-btn"
+        src="/assets/share/Btn_4.png"
+        mode="heightFix"
+        style="height: {{btnHeight}}rpx;"
+        bindtap="onExpand"
+      />
+    </view>
+  </block>
+
+  <!-- Expanded: Btn_5 + Btn_6 vertically stacked -->
+  <block wx:elif="{{expanded}}">
+    <view class="zero-row" style="column-gap: {{stackGap}}rpx;">
+      <image
+        class="zero-row-btn"
+        src="/assets/share/Btn_5.png"
+        mode="heightFix"
+        style="height: {{btnHeight}}rpx;"
+        bindtap="onCollapse"
+      />
+      <image
+        class="zero-row-btn"
+        src="/assets/share/Btn_6.png"
+        mode="heightFix"
+        style="height: {{2 * btnHeight}}rpx;"
+        bindtap="onOpenQuota"
+      />
+    </view>
+  </block>
+
+</view>

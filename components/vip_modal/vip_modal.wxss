@@ -1,0 +1,33 @@
+/* components/vip_modal/vip_modal.wxss */
+.mask{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index:200
+}
+.panel{
+  width: 86vw;
+  max-width: 680rpx;
+  background: linear-gradient(180deg,#d8b389,#d2a67e);
+  border-radius: 24rpx;
+  padding: 26rpx 20rpx 64rpx;
+  position: relative
+}
+.title{text-align:center;font-size:40rpx;font-weight:800;color:#5b3b1e;margin-bottom:12rpx}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16rpx;padding:8rpx}
+.card{background:#fff;border-radius:20rpx;padding:20rpx 16rpx;box-shadow:0 8rpx 22rpx rgba(0,0,0,.08)}
+.card.gold{outline:4rpx solid #f5c063}
+.name{
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-bottom: 8rpx;
+}
+.lines text{display:block;color:#777;font-size:22rpx;line-height:1.6}
+.price{color:#ff3b30;font-weight:800;font-size:34rpx;margin:12rpx 0}
+.buy{background:#19be6b;color:#fff;border-radius:999rpx;height:68rpx;line-height:68rpx}
+.footer{text-align:center;color:#fff;margin-top:18rpx}
+.close-btn{position:absolute;left:50%;transform:translateX(-50%);bottom:-46rpx;width:88rpx;height:88rpx;border-radius:50%;background:#fff;color:#333;font-size:36rpx;border:none;box-shadow:0 10rpx 22rpx rgba(0,0,0,.2)}
+.close-btn::after{border:none}

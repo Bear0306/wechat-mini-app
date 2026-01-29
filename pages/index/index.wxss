@@ -1,0 +1,253 @@
+.page { 
+  position: relative; 
+  width: 100%; 
+  height: 100vh; 
+  overflow: hidden; 
+}
+.bg-swiper, .bg-img { 
+  position: absolute; 
+  width: 100%; 
+  height: 100%; 
+  top: 0; 
+  left: 0; 
+}
+
+/* Top banner: keep your existing style */
+.disclaimer {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 1;
+  color: rgb(216, 11, 11);
+  font-size: 40rpx;
+}
+
+/* Outer container: no animation here, just clipping */
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Inner moving track: animate exactly 3 loops, then stop */
+.marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
+  animation: scroll-left 15s linear 3;      /* 3 loops */
+  animation-fill-mode: forwards;            /* stay at end state after stopping */
+}
+
+/* Optional spacer between duplicated texts for seamless look */
+.marquee .gap {
+  display: inline-block;
+  width: 80rpx;
+}
+
+/* Your original motion preserved */
+@keyframes scroll-left {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Foreground content stack */
+.content {
+  position: relative; 
+  z-index: 2;
+  padding: 30rpx 24rpx 40rpx;
+  display: flex; 
+  flex-direction: column; 
+  gap: 24rpx;
+}
+
+/* Glassmorphism helper */
+.glass {
+  background: rgba(250, 246, 246, 0.8);
+  border: 1rpx solid rgba(255,255,255,0.35);
+  border-radius: 20rpx;
+  box-shadow: 0 12rpx 30rpx rgba(0,0,0,0.18);
+}
+
+/* Steps card */
+.steps-card { 
+  align-items: center; 
+  text-align: center; 
+  padding: 30rpx 20rpx; 
+}
+
+.steps-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.steps-subtitle {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #000000;                     /* 黑色填充 */
+  -webkit-text-stroke: 1rpx #e78340;  /* 橙色描边 */
+  text-shadow: 0 1rpx 1rpx rgba(0,0,0,0.1);
+  letter-spacing: 2rpx;
+}
+.steps-refresh {
+  font-size: 55rpx;
+  font-weight: 1000;
+  color: #000000;                     /* 黑色填充 */
+  -webkit-text-stroke: 1rpx #e78340;  /* 橙色描边 */
+  text-shadow: 0 10rpx 10rpx rgba(0,0,0,0.1);
+  letter-spacing: 2rpx;
+}
+/* 大数字 “0步” */
+.steps-number {
+  display: inline-block;
+  font-size: 160rpx;
+  font-weight: 900;
+  color: #000000;
+  -webkit-text-stroke: 4rpx #e78340;
+  text-shadow: 0 6rpx 12rpx rgba(0,0,0,0.5);
+  margin: 8rpx 0;
+}
+.steps-window { 
+  display: inline-block;
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #fff;
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+  -webkit-text-stroke: 1rpx rgb(104, 103, 103);
+  text-shadow: 0 2rpx 6rpx rgba(0,0,0,0.9);
+}
+.custom-dots {
+  position: absolute;
+  top: 410rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 3;
+}
+
+.dot-img {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+/* Equip strip */
+.equip-strip {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.equip-item {
+  position: relative;
+  width: 100%;
+  height: 110rpx;
+}
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.prize-string {
+  color: rgb(151, 151, 151);
+  font-size: 30rpx;
+  text-align: center;
+  margin-top: -20rpx;
+}
+
+/* 弹窗 */
+.m-mask{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 4;
+}
+
+/* 卡片 */
+.m-card{
+  width: 88%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 24rpx 22rpx;
+  box-shadow: 0 20rpx 40rpx rgba(0,0,0,.25);
+}
+.m-title{
+  text-align: center;
+  font-size: 40rpx; font-weight: 700;
+  color: #333;
+}
+.m-desc{
+  margin-top: 20rpx;
+  color: #e33;                 /* 红色文案 */
+  line-height: 1.8;
+  font-weight: 650;
+  font-size: 34rpx;
+  text-align: left;
+  text-align: center;
+}
+
+/* 勾选 */
+.m-check{
+  margin-top: 20rpx;
+  display: flex; align-items: center; justify-content: center;
+  gap: 12rpx;
+}
+.m-check-icon{ width: 36rpx; height: 36rpx; }
+.m-check-txt{ color:#888; font-size: 26rpx; }
+
+
+/* 按钮 */
+.m-actions{
+  display: flex; 
+  justify-content: center; 
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+
+/* 分享提示区 */
+/* 区块外层，与设计同一行、左右分布 */
+.share-block {
+  margin-top: 16rpx;
+  padding: 8rpx 4rpx 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 左侧两行文字 */
+.share-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  width: 80%;
+  text-align: right;
+}
+.share-left-top {
+  font-size: 28rpx;
+  color: #16c06e;          /* 绿色高亮 */
+  font-weight: 600;
+}
+.share-left-sub {
+  font-size: 24rpx;
+  color: #b0b0b0;          /* 灰色说明 */
+}
+
+/* 右侧图标按钮（无边框、透明背景） */
+.share-right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  background: transparent;
+  border: none;
+  padding: 0;
+  line-height: 1;
+}
+.share-icon{
+  width: 48rpx;            /* 按设计大小微调 */
+  height: 48rpx;
+}
+.share-right-text{
+  font-size: 24rpx;
+  color: #b0b0b0;          /* 与左侧副标题一致的灰色 */
+}

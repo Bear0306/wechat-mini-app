@@ -1,0 +1,113 @@
+<view class="page">
+  <!-- 背景图轮播 -->
+  <swiper class="bg-swiper" autoplay circular interval="8000" duration="1000" current="{{bgCurrent}}" bindchange="onBgChange">
+    <block wx:for="{{bgImages}}" wx:key="img">
+      <swiper-item>
+        <image class="bg-img" mode="aspectFill" src="{{item.img}}" lazy-load="{{index !== bgCurrent}}"/>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 顶部声明横幅（滚动3次后停止并隐藏当天） -->
+  <view class="disclaimer" wx:if="{{showDisclaimer}}">
+    <view class="marquee">
+      <view class="marquee-track" bindanimationend="onMarqueeEnd">
+        <text>参赛者请自行评估身体状况，平台不承担运动损伤责任！禁止在危险区域运动！</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 内容层 / Foreground content -->
+  <view class="content">
+    <!-- 今日步数卡片（居中大字） -->
+    <view class="steps-card">
+      <view class="steps-header">
+        <text class="steps-subtitle">今日总步数</text>
+        <text class="steps-refresh" bindtap="fetchTodaySteps">⟳</text>
+      </view>
+      <view>
+        <text class="steps-number">{{steps}}步</text>
+      </view>
+      <text class="steps-window">此数据为06:00–20:00的数据</text>
+    </view>
+
+    <!-- 自定义轮播点 -->
+    <view class="custom-dots">
+      <block wx:for="{{bgImages}}" wx:key="img">
+        <image
+          class="dot-img"
+          src="{{index === bgCurrent ? '/assets/homepage/Dot1.png' : '/assets/homepage/Dot2.png'}}"
+          mode="aspectFit"
+        />
+      </block>
+    </view>
+
+    <!-- 设备图标横滑 -->
+    <view class="equip-strip">
+      <block wx:for="{{equipIcons}}" wx:key="id">
+        <view class="equip-item">
+          <image class="frame" src="{{item.img}}" mode="aspectFit" />
+        </view>
+      </block>
+    </view>
+
+    <text class="prize-string">奖品：图片仅供参考，请以实物为准。</text>
+
+    <!-- 赛事列表 -->
+    <view class="list">
+      <block wx:for="{{displayItems}}" wx:key="__key">
+
+        <!-- 普通挑战卡片 -->
+        <view wx:if="{{item.__type==='contest'}}" class="card glass">
+          <view class="card-left">
+            <text class="card-title">{{item.title}}({{item.statusText}})</text>
+            <text class="card-date">{{item.dateText}}</text>
+          </view>
+
+          <view class="card-right">
+            <!-- 结束或进行中：仅查看排名（跳“我的”） -->
+            <text wx:if="{{item.status=='ended' || item.status=='ongoing'}}"
+                  class="btn-text ghost"
+                  data-id="{{item.id}}"
+                  data-type="{{item.frequency}}"
+                  data-status="{{item.status}}"
+                  bindtap="goMyRanking">
+              查看排名
+            </text>
+            <text wx:if="{{item.status==='upcoming' && item.joined}}"
+                  class="btn-text show" size="mini" data-id="{{item.id}}">
+              已报名
+            </text>
+            <!-- 未开始：需要声明弹窗 -->
+            <button wx:elif="{{item.status === 'upcoming' && !item.joined}}"
+                    class="btn primary btn-round" size="mini"
+                    bindtap="openAgreeModal" data-id="{{item.id}}">
+              参与挑战
+            </button>
+          </view>
+        </view>
+
+        <!-- 广告卡片（可点击） -->
+        <view wx:elif="{{item.__type==='ad'}}" class="ad-card" bindtap="openAd" data-link="{{item.link}}">
+          <image class="ad-img" src="{{item.img}}" mode="aspectFill" />
+          <view class="ad-tag">广告</view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 参与声明弹窗 -->
+  <agree-modal
+    show="{{agreeModal.show}}"
+    contestId="{{agreeModal.contestId}}"
+    joinCount="{{agreeModal.joinCount}}"
+    bind:close="closeAgree"
+    bind:confirm="confirmParticipate"
+    bind:goShare="goShare"
+  />
+
+  <modals-hub id="modalsHub"
+              joinCount="{{modalHub.joinCount}}"
+              viewShare="{{modalHub.viewShare}}"/>
+
+</view>

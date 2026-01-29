@@ -1,0 +1,55 @@
+<!--components/quota_modal/quota_modal.wxml-->
+<view wx:if="{{show}}" class="qm-mask" catchtouchmove="true">
+  <view class="qm-modal" catchtap="noop">
+    <view class="qm-title">详情</view>
+    <view class="qm-sub"><text class="green">可用挑战次数：{{joinCount}}</text></view>
+
+    <!-- 观看广告 -->
+    <view class="row row-flex">
+      <view class="row-left">
+        <view class="row-title">
+          <text>观看广告<text class="link">（当前已看{{adsWatched}}/{{adsReq}}）</text></text>
+        </view>
+        <view class="row-desc">每{{adsReq}}次广告，挑战次数+1</view>
+      </view>
+      <view class="row-right">
+        <text class="pill pill-blue" bindtap="onWatch">立即观看</text>
+      </view>
+    </view>
+
+    <!-- 分享 -->
+    <view class="row">
+      <view class="row-title">
+        <text> 分享<text class="link orange">（当前已成功推荐{{invited}}人，{{refHint}}）</text></text>
+      </view>
+      <view class="row-flex">
+        <view class="row-left">
+          <view class="row-desc">每推荐3人首次成功注册，推荐者可获得一次奖励翻2倍+1次挑战次数</view>
+        </view>
+        <view class="row-right">
+          <text class="pill pill-orange" bindtap="onShare">立即分享</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 购买会员 -->
+    <view class="row row-flex">
+      <view class="row-left">
+        <view class="row-title">
+          <text>购买会员<text class="link brown">（当前为{{tierText}}）</text></text>
+        </view>
+        <view class="row-desc">购买会员，免广告，增加挑战次数</view>
+      </view>
+      <view class="row-right">
+        <text class="pill pill-brown" bindtap="onBuy">立即购买</text>
+      </view>
+    </view>
+
+    <!-- center close -->
+    <view class="close-wrap" bindtap="close">
+      <view class="close-ring">
+        <text class="close-x">✕</text>
+      </view>
+    </view>
+  </view>
+</view>

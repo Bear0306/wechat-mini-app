@@ -1,0 +1,10 @@
+<view class="container">
+  <button open-type="share">分享邀请（裂变）</button>
+  <button bindtap="checkMultiplier">查看我的倍率</button>
+  <text>会员：开通VIP / 高级VIP（免广告、配额可结转、自动参赛）</text>
+  <button bindtap="buyVip">购买VIP</button>
+  <button bindtap="buyVipPlus">购买高级VIP</button>
+  <view>
+    <text>{{status}}</text>
+  </view>
+</view>

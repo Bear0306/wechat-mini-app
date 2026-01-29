@@ -1,0 +1,36 @@
+<view wx:if="{{show}}" class="mask" catchtouchmove="noop">
+  <view class="modal" catchtap="noop">
+
+    <!-- Title -->
+    <view class="header">选择要分享的图片</view>
+
+    <!-- 5 selectable images (keep original ratios) -->
+    <view class="grid">
+      <block wx:for="{{displayImages}}" wx:key="id">
+        <view
+          class="cell {{selectedId === item.id ? 'selected' : ''}}"
+          data-id="{{item.id}}"
+          data-url="{{item.url}}"
+          bindtap="onChoose"
+        >
+          <!-- aspectFit preserves original width/height ratio -->
+          <image class="thumb" src="{{item.url}}" mode="aspectFit" />
+        </view>
+      </block>
+    </view>
+
+    <!-- Footer buttons (centered text) -->
+    <view class="footer">
+      <button class="btn cancel" bindtap="onClose">取消</button>
+      <button
+        class="btn share"
+        open-type="share"
+        data-url="{{selectedUrl}}"
+        data-query="{{shareQuery}}"
+      >
+        分享
+      </button>
+    </view>
+
+  </view>
+</view>

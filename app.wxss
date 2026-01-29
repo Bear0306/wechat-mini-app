@@ -1,0 +1,79 @@
+/* app.wxss */
+
+/* Reset some defaults */
+page {
+  background-color: #f8f8f8;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "宋体";
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* Global button style */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24rpx;
+  height: 75rpx;
+  font-size: 40rpx;
+  vertical-align: middle;
+}
+
+.btn-text {
+  display: flex;
+  align-items: center;
+  margin-top: -60rpx;
+  padding: 0 24rpx;
+  height: 80rpx;
+  font-size: 40rpx;
+}
+
+.btn-round {
+  border-radius: 999rpx;
+}
+
+/* Variants */
+.ghost {
+  color: rgb(150, 150, 150);
+  border: none;
+}
+
+.show {
+  color: #16c06e;
+  border: none;
+}
+
+.btn.primary {
+  color: #fff;
+  background: #16c06e;
+  border: none;
+}
+.container {
+  padding: 30rpx;
+}
+/* 卡片 */
+.card {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  padding: 22rpx; 
+  margin: 16rpx 0; 
+  border-radius: 16rpx;
+  background: #fff; 
+  box-shadow: 0 8rpx 20rpx rgba(0,0,0,0.06);
+}
+.card-left { 
+  max-width: 64%; 
+}
+.card-title { 
+  display: block; 
+  font-size: 30rpx; 
+  font-weight: 700; 
+  color: #111; 
+}
+.card-date  { display: block; margin-top: 6rpx; font-size: 24rpx; color: #888; }
+.card-status { display: inline-block; margin-top: 10rpx; font-size: 22rpx; }
+.card-status.upcoming { color: #1aad19; }
+.card-status.ongoing  { color: #ff9f1a; }
+.card-status.ended    { color: #999; }
+.card-right button { margin-left: 12rpx; }

@@ -1,0 +1,175 @@
+<view class="page">
+  <view class="disclaimer-card">
+    <text class="disclaimer-text">为增强数据的准确性，请参赛者，每次运动结束、或次日打开数赛小程序</text>
+  </view>
+<!-- 顶部个人信息 / Me card -->
+  <view class="me-card">
+    <view class="avatar-wrap">
+      <!-- VIP 框 -->
+        <image
+          wx:if="{{vip.tier !== 'NONE'}}"
+          class="vip-frame {{vip.class}}"
+          src="{{vip.frame}}"
+          mode="widthFix"
+        />
+      <!-- 头像 -->
+      <image class="avatar" src="{{me.avatar || '/assets/my/default_avatar.png'}}" />
+      <!-- 档位角标（可选） -->
+      <view wx:if="{{vip.badge}}" class="vip-badge">{{vip.badge}}</view>
+    </view>
+
+    <view class="me-main">
+      <view class="me-top">
+        <view class="me-metrics">
+          <view class="metric">
+            <text class="me-name">{{me.nickname || '我的昵称'}}</text>
+            <text class="metric-label">我的ID：{{me.uid || '--'}}</text>
+          </view>
+          <view class="metric">
+            <text class="metric-num">{{me.weekSteps || 0}}</text>
+            <text class="metric-label">本周微信步数</text>
+          </view>
+          <view class="metric">
+            <text class="metric-num">{{me.joinCount}}</text>
+            <text class="metric-label">可挑战次数</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 会员行 -->
+      <view wx:if="{{vip.tier !== 'NONE'}}" class="vip-line">
+        <text class="vip-name" style="color: {{vip.color}};">{{vip.name}}</text>
+        <text class="vip-date" style="color: {{vip.color}};">（{{vip.start}}-{{vip.end}}）</text>
+      </view>
+      <view wx:else class="vip-line muted">未开通会员</view>
+    </view>
+  </view>
+
+  <!-- 一级：进行中 / 已结束 -->
+  <view class="seg">
+    <view class="seg-item {{seg==='ongoing'?'active':''}}" data-k="ongoing" bindtap="switchSeg">进行中</view>
+    <view class="seg-item {{seg==='ended'?'active':''}}" data-k="ended" bindtap="switchSeg">已结束</view>
+  </view>
+
+  <!-- 二级：日 / 周 / 月（仅进行中显示） -->
+  <view class="tabs2" wx:if="{{seg==='ongoing'}}">
+    <!-- <view class="tab2 {{tab==='day'?'on':''}}" data-k="day" bindtap="switchTab"> -->
+    <view class="tab2 {{tab==='day'?'on':''}} {{tabDisabled.day?'disabled':''}}"
+        data-k="day" bindtap="switchTab">
+      日榜 <view class="underline" wx:if="{{tab==='day'}}"></view>
+    </view>
+    <!-- <view class="tab2 {{tab==='week'?'on':''}}" data-k="week" bindtap="switchTab"> -->
+    <view class="tab2 {{tab==='week'?'on':''}} {{tabDisabled.week?'disabled':''}}"
+        data-k="week" bindtap="switchTab">
+      周榜 <view class="underline" wx:if="{{tab==='week'}}"></view>
+    </view>
+    <!-- <view class="tab2 {{tab==='month'?'on':''}}" data-k="month" bindtap="switchTab"> -->
+    <view class="tab2 {{tab==='month'?'on':''}} {{tabDisabled.month?'disabled':''}}"
+        data-k="month" bindtap="switchTab">
+      月榜 <view class="underline" wx:if="{{tab==='month'}}"></view>
+    </view>
+  </view>
+
+  <!-- 进行中：榜单 -->
+  <scroll-view wx:if="{{seg==='ongoing'}}" class="list" scroll-y bindscroll="onOngoingScroll">
+    <block wx:for="{{ongoing.items}}" wx:key="rank">
+      <view class="rank-row">
+        <view class="rank-left">
+          <view>
+            <image wx:if="{{item.rank <= 3}}" class="medal"
+                  src="{{item.rank == 1 ? '/assets/my/Ranking1.png' : (item.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />
+          </view>
+        </view>
+        <text class="rank-num rank-{{item.rank}}">{{item.rank}}</text>
+        <view class="rank-center">
+          <image class="row-avatar" src="{{ item.avatar || '/assets/my/default_avatar.png' }}" />
+          <text class="row-name">{{ item.name }}</text>
+        </view>
+        <view class="rank-right">
+          <text class="steps">{{ item.steps }}</text>
+          <text class="unit">步</text>
+        </view>
+      </view>
+    </block>
+    <view class="loading">{{ongoing.loadingText}}</view>
+  </scroll-view>
+
+  <!-- “我的名次”：只在第一页、且我的名次不在当前页时显示 -->
+  <view wx:if="{{ongoing.showMyRow & seg==='ongoing'}}" class="rank-row me-row">
+    <view class="rank-left">
+        <view>
+          <image wx:if="{{item.rank <= 3}}" class="medal"
+                src="{{item.rank == 1 ? '/assets/my/Ranking1.png' : (item.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />
+        </view>
+    </view>
+    <text class="rank-num">{{ongoing.my.rank}}</text>
+    <view class="rank-center">
+        <image class="row-avatar" src="{{ ongoing.my.avatar || '/assets/my/default_avatar.png' }}" />
+        <text class="row-name">{{ongoing.my.name || '我的昵称'}}</text>
+    </view>
+    <view class="rank-right">
+        <text class="steps">{{ ongoing.my.steps }}</text>
+        <text class="unit">步</text>
+    </view>
+  </view>
+
+
+  <!-- 已结束：赛事列表（卡片样式） -->
+  <scroll-view wx:elif="{{seg==='ended'}}" class="list" scroll-y bindscrolltolower="loadMoreEnded">
+    <block wx:for="{{ended.items}}" wx:key="contestId">
+      <!-- 整卡点击：快照；按钮用 catchtap 阻止冒泡 -->
+      <view class="ended-card" data-id="{{item.contestId}}">
+        <view class="ended-left">
+          <!-- 行1：标题（左） + 日期（右） -->
+          <view class="ended-row1">
+            <text class="ended-title">*{{item.title}}</text>
+            <text class="ended-date">{{item.dateText}}</text>
+          </view>
+          <!-- 行2：副标题 -->
+          <text class="ended-sub">取得前 {{item.rewardTopN}} 名次 - 即可获得奖励</text>
+        </view>
+
+        <view class="ended-right">
+          <button
+            wx:if="{{item.canClaim}}"
+            class="pill pill-green"
+            bindtap="claim"
+            data-id="{{item.contestId}}"
+          >领取奖励</button>
+          <button 
+            wx:elif="{{item.claimed}}" 
+            class="pill pill-blue-outline"
+            bindtap="viewPrize" 
+            data-claim-id="{{item.claimId}}">
+            查看奖励
+          </button>
+          <button
+            wx:else
+            class="pill pill-blue"
+            bindtap="goRanking"
+            data-id="{{item.contestId}}"
+          >查看排名</button>
+        </view>
+      </view>
+    </block>
+
+    <view class="loading">{{ended.loadingText}}</view>
+  </scroll-view>
+
+  <claim-modal
+    id="claimModal"
+    userid="{{me.uid}}"
+    show="{{claim.show}}"
+    claimId="{{claim.claimId}}"
+    contestId="{{claim.contestId}}"
+    rank="{{claim.rank}}"
+    prizeTitle="{{claim.prizeTitle}}"
+    imageUrl="{{claim.imageUrl}}"
+    csWeChatId="{{claim.csWeChatId}}"
+    bind:close="closeClaimModal"
+  />
+
+  <modals-hub id="modalsHub"
+              joinCount="{{modalHub.joinCount}}"
+              viewShare="{{modalHub.viewShare}}"/>
+</view>

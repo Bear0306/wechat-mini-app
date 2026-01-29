@@ -1,0 +1,28 @@
+<!--components/vip_modal/vip_modal.wxml-->
+<view wx:if="{{show}}" class="mask" bindtap="close">
+  <view class="panel" catchtap="noop">
+    <view class="title">VIP</view>
+
+    <view class="grid">
+      <block wx:for="{{products}}" wx:key="id">
+        <view class="card {{item.tier==='GOLD'?'gold':''}}">
+          <view class="name">{{item.displayName}}</view>
+          <view class="lines">
+            <text>每月获得{{item.monthlyCredits}}次参赛</text>
+            <text>{{item.carryOver?'次数可结转至下月':'次数不结转'}}</text>
+            <text>免广告</text>
+            <text wx:if="{{item.allowRegionSelect}}">自选区域、自动参赛</text>
+          </view>
+          <view class="price">¥{{item.price / 100}}</view>
+          <button class="buy" data-id="{{item.id}}" bindtap="onBuy">立即购买</button>
+        </view>
+      </block>
+    </view>
+
+    <view class="footer">
+      会员期限：{{footerNote}}
+    </view>
+
+    <button class="close-btn" bindtap="close">✕</button>
+  </view>
+</view>

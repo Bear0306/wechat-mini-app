@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "claim-modal": "/components/claim_modal/claim_modal",
+    "modals-hub": "/components/modals-hub/modals-hub"
+  },
+  "enablePullDownRefresh": true
+
+}

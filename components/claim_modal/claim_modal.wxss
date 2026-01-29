@@ -1,0 +1,144 @@
+/* overlay */
+.mask{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 101;
+}
+
+/* modal container */
+.modal{
+  width: 80vw; max-width: 680rpx; aspect-ratio: 4/5;
+  position: relative; 
+  border-radius: 24rpx; 
+  overflow: hidden;
+  box-shadow: 0 12rpx 30rpx rgba(0,0,0,.25);
+}
+.modal-bg{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.modal-inner{ position:relative; z-index:1; padding: 8rpx 24rpx 6rpx; height:100%; box-sizing:border-box; }
+
+/* top rank */
+.rank-title{ 
+  text-align: center; 
+}
+.rank-badge{
+  font-size: 48rpx; 
+  font-weight: 900; 
+  color:#fff; 
+  letter-spacing: 4rpx;
+  text-shadow:
+    -5rpx -5rpx 0 #ff5a78, 5rpx -5rpx 0 #ff5a78,
+    -5rpx  5rpx 0 #ff5a78, 5rpx  5rpx 0 #ff5a78,
+     0      5rpx 0 #ff5a78, 5rpx 0 0 #ff5a78,
+    -5rpx   0   0 #ff5a78, 0 -5rpx 0 #ff5a78;
+}
+.rank-sub{ 
+  font-size: 30rpx; 
+  font-weight: 900; 
+  color:#fff; 
+  letter-spacing: 2rpx;
+  text-shadow:
+    -5rpx -5rpx 0 #ff5a78, 5rpx -5rpx 0 #ff5a78,
+    -5rpx  5rpx 0 #ff5a78, 5rpx  5rpx 0 #ff5a78,
+     0      5rpx 0 #ff5a78, 5rpx 0 0 #ff5a78,
+    -5rpx   0   0 #ff5a78, 0 -5rpx 0 #ff5a78;
+  opacity:.85;
+}
+
+/* prize card framed by image */
+.prize-card{
+  position: relative; width: 88%; margin: 16rpx auto 26rpx; height: 300rpx;
+}
+.prize-frame{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+.prize-img{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-52%);
+  width: 78%; height: 70%; z-index:1;
+}
+.prize-chip{
+  position:absolute; 
+  left:50%; 
+  bottom: 10rpx; 
+  transform: translateX(-50%);
+  color:rgb(143, 143, 143); 
+  padding: 6rpx 18rpx;
+}
+.prize-chip-text{ 
+  font-size: 26rpx; 
+  font-weight: 700; 
+  color: #610304;
+}
+
+.description { 
+  font-size: 28rpx; 
+  font-weight: 500;
+  line-height: 1.2; 
+  margin: 20rpx 50rpx 5rpx;  /* top=20rpx, right=0, bottom=12rpx */
+  color: #610304;
+}
+.section { 
+  font-size: 28rpx; 
+  line-height: 1.2; 
+  margin: 5rpx 75rpx 5rpx;  /* top,right,bottom */
+  color: #610304;
+}
+
+/* pink panel */
+.panel-link {
+  display: flex;
+  align-items: right;
+  padding: 20rpx 20rpx;
+  border-radius: 10rpx;
+}
+.cs-id{ 
+  flex: 40;
+  line-height: 50rpx;
+  border-radius: 10rpx;
+  background: #ffffff;
+  color: #2D3135;
+  font-size: 26rpx;
+  text-align: center;
+}
+.cs-btn {
+  flex: 8;
+  background-color: hsl(125, 38%, 57%);
+  color: #fff;
+  font-size: 26rpx;
+  text-align: center;
+  padding: 8rpx 8rpx;
+}
+.cs-btn:disabled{ border: none; opacity: 0.7; }
+.cs-line{ display:flex; align-items:center; gap:10rpx; }
+/* close */
+.close-btn{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom: 20rpx;
+
+  width: 92rpx;
+  height:92rpx;
+  border-radius:9999rpx;
+
+  background:rgba(0,0,0,.35);    /* translucent fill */
+  border:4rpx solid rgba(255,255,255,.95);  /* white ring */
+  box-shadow:0 8rpx 20rpx rgba(0,0,0,.25);
+
+  display:flex; align-items:center; justify-content:center;
+  color:transparent;
+  z-index: 100;
+}
+.close-btn::after{ border:none; }
+
+/* White “X” centered inside the oval */
+.close-line{
+  position:absolute;
+  width:50rpx;                   /* longer to fit the oval */
+  height:6rpx;                   /* thickness of each bar */
+  background:rgba(255,255,255,.96);
+  border-radius:6rpx;
+}
+.close-line.a{ transform:rotate(45deg); }
+.close-line.b{ transform:rotate(-45deg); }
+
+/* optional press feedback */
+.close-btn:active{ transform:translateX(-50%) scale(.98); }

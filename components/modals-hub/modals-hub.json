@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "zero-cta": "/components/zero_cta/zero_cta",
+    "quota-modal": "/components/quota_modal/quota_modal",
+    "share-modal": "/components/share_modal/share_modal"
+  }
+}

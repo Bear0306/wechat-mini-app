@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "agree-modal": "/components/agree_modal/agree_modal",
+    "modals-hub": "/components/modals-hub/modals-hub"
+  },
+  "enablePullDownRefresh": true
+}

@@ -1,0 +1,101 @@
+/* Overlay */
+.mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+/* Modal shell */
+.modal {
+  width: 86%;
+  max-width: 680rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  overflow: hidden;
+  box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.18);
+}
+
+/* Header */
+.header {
+  padding: 28rpx 32rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111;
+  text-align: center;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+/* Image grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16rpx;
+  padding: 24rpx 24rpx 8rpx;
+}
+
+.cell {
+  width: 100%;
+  aspect-ratio: 1 / 1;     /* square slot */
+  border-radius: 16rpx;
+  overflow: hidden;
+  border: 2rpx solid transparent;
+  background: #f7f7f7;     /* shows behind aspectFit letterbox */
+  display: flex;           /* center the image canvas just in case */
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.selected {
+  border-color: #1677ff;
+  box-shadow: 0 0 0 4rpx rgba(22, 119, 255, 0.15);
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* With mode="aspectFit", image keeps original ratio
+     and letterboxes inside the square cell */
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  gap: 20rpx;
+  padding: 24rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+/* Buttons: center text vertically & horizontally */
+.btn {
+  flex: 1;
+  height: 88rpx;
+  font-size: 30rpx;
+  border-radius: 16rpx;
+
+  /* Centering (works across iOS/Android) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* Remove default mini-program button border overlay */
+  position: relative;
+}
+.btn::after {
+  border: none;
+}
+
+.cancel {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.share {
+  background: #1677ff;
+  color: #fff;
+}
