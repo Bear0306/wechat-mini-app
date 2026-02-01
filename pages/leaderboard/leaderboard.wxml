@@ -173,8 +173,9 @@
             <text class="ended-sub">取得前 {{item.rewardTopN}} 名次 - 即可获得奖励</text>
           </view>
           <view class="ended-right">
-            <button wx:if="{{item.canClaim}}" class="pill pill-green" bindtap="claim" data-id="{{item.contestId}}">领取奖励</button>
-            <button wx:elif="{{item.claimed}}" class="pill pill-blue-outline" bindtap="viewPrize" data-claim-id="{{item.claimId}}">查看奖励</button>
+            <button wx:if="{{item.claimed}}" class="pill pill-blue-outline" bindtap="viewPrize" data-claim-id="{{item.claimId}}">查看奖励</button>
+            <button wx:elif="{{item.status === 'FINALIZING'}}" class="pill pill-blue" bindtap="goRanking" data-id="{{item.contestId}}">结束中</button>
+            <button wx:elif="{{item.canClaim}}" class="pill pill-green" bindtap="claim" data-id="{{item.contestId}}">领取奖励</button>
             <button wx:else class="pill pill-blue" bindtap="goRanking" data-id="{{item.contestId}}">查看排名</button>
           </view>
         </view>
