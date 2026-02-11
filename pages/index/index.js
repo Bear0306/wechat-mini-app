@@ -46,12 +46,18 @@ Page({
     // Background swiper
     bgCurrent: 0,
     bgImages: [
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise1.png' },
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise2.png' },
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise3.png' },
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise4.png' },
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise5.png' },
-      { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise6.png' }
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise1.png' },
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise2.png' },
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise3.png' },
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise4.png' },
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise5.png' },
+      // { img: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/background/exercise6.png' }
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise1.jpg' },
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise2.jpg' },
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise3.jpg' },
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise4.jpg' },
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise5.jpg' },
+      { img: 'https://btcdn.qiaq.online/ydcos/cdn_assets/background/exercise6.jpg' }
     ],
 
     equipIcons: [
@@ -95,11 +101,16 @@ Page({
 
   onReady() {
     preload_assets({
-      share1: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/1.png',
-      share2: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/2.png',
-      share3: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/3.png',
-      share4: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/4.png',
-      share5: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/5.png'
+      // share1: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/1.png',
+      // share2: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/2.png',
+      // share3: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/3.png',
+      // share4: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/4.png',
+      // share5: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/5.png'
+      share1: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/1.jpg',
+      share2: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/2.jpg',
+      share3: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/3.jpg',
+      share4: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/4.jpg',
+      share5: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/5.jpg'
     });
   },
 

@@ -48,12 +48,6 @@ function cacheOne(url) {
   })
 }
 
-/**
- * preload_assets({
- *   share1: 'https://cdn.xxx/1.webp',
- *   share2: 'https://cdn.xxx/2.webp'
- * })
- */
 export async function preload_assets(assetMap = {}) {
   const app = getApp()
   if (!app.globalData.cached_assets) {

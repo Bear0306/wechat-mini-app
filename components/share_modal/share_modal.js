@@ -10,11 +10,16 @@ Component({
 
   data: {
     displayImages: [
-      { id: '1', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/1.png' },
-      { id: '2', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/2.png' },
-      { id: '3', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/3.png' },
-      { id: '4', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/4.png' },
-      { id: '5', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/5.png' }
+      // { id: '1', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/1.png' },
+      // { id: '2', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/2.png' },
+      // { id: '3', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/3.png' },
+      // { id: '4', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/4.png' },
+      // { id: '5', url: 'https://wechat-assets-cdn.b-cdn.net/cdn_assets/share/5.png' }
+      { id: '1', url: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/1.jpg' },
+      { id: '2', url: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/2.jpg' },
+      { id: '3', url: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/3.jpg' },
+      { id: '4', url: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/4.jpg' },
+      { id: '5', url: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/5.jpg' }
     ],
     selectedId: '',
     selectedUrl: '',
