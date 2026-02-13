@@ -85,7 +85,7 @@
   <!-- 进行中：榜单 -->
   <scroll-view wx:if="{{seg==='ongoing'}}" class="list" scroll-y bindscroll="onOngoingScroll">
     <block wx:for="{{ongoing.items}}" wx:key="rank">
-      <view class="rank-row {{item.rank <= 20 ? 'rank-row-green' : ''}}">
+      <view class="rank-row {{item.rank <= 20 && item.userId == me.uid? 'rank-row-green' : ''}}">
         <view class="rank-left">
           <view>
             <image wx:if="{{item.rank <= 3}}" class="medal"
@@ -136,7 +136,7 @@
       </view>
       <scroll-view class="list ended-ranking-list" scroll-y bindscroll="onEndedRankingScroll">
         <block wx:for="{{ended.rankingItems}}" wx:key="rank">
-          <view class="rank-row {{item.rank <= 20 ? 'rank-row-green' : ''}}">
+          <view class="rank-row {{item.rank <= 20 && item.userId == me.uid? 'rank-row-green' : ''}}">
             <view class="rank-left">
               <image wx:if="{{item.rank <= 3}}" class="medal"
                 src="{{item.rank == 1 ? '/assets/my/Ranking1.png' : (item.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />
@@ -156,7 +156,7 @@
         <view wx:elif="{{!ended.rankingItems.length && !ended.rankingLoading}}" class="loading">暂无排名</view>
       </scroll-view>
       <!-- 我的名次：不在首屏时底部固定显示，滚动后隐藏 -->
-      <view wx:if="{{ended.showMyRow && ended.my}}" class="rank-row me-row {{ended.my.rank <= 20 ? 'rank-row-green' : ''}}">
+      <view wx:if="{{ended.showMyRow && ended.my}}" class="rank-row {{ended.my.rank <= 20 ? 'rank-row-green' : ''}}">
         <view class="rank-left">
           <image wx:if="{{ended.my.rank <= 3}}" class="medal"
             src="{{ended.my.rank == 1 ? '/assets/my/Ranking1.png' : (ended.my.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />

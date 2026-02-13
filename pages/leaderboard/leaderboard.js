@@ -144,6 +144,7 @@ Page({
     this.setData({showProfileModal: false});
   },
 
+
   computeTabLocks(contestType) {
     const type = String(contestType || '').toUpperCase(); // DAILY | WEEKLY | (empty)
     let disabled = { day: false, week: false, month: false };
@@ -196,6 +197,7 @@ Page({
     const tab = byTab.day != null ? 'day' : (byTab.week != null ? 'week' : 'month');
     this.setData({
       'ongoing.contestId': defaultContestId,
+      'ongoing.showMyRow': false,
       tab
     }, () => {
       this.loadOngoing(true);
@@ -205,30 +207,47 @@ Page({
   /* ---------------- 一级 / 二级切换 ---------------- */
   switchSeg(e) {
     const seg = e.currentTarget.dataset.k;
-    if (seg === this.data.seg) return;
-
     if (seg === 'ended') {
       this.setData({ seg, 'ended.selectedContestId': null, 'ended.rankingItems': [], 'ended.rankingTitle': '' }, () => {
         if (this.data.ended.items.length === 0) this.loadEnded(true);
       });
     } else {
       this.setData({ seg }, () => {
-        if (this.data.ongoing.items.length === 0) this.loadOngoing(true);
-        else this.reapplyFirstScreenLogic();
+        this.setData({tab:'day'});
+        if (this.data.tabDisabled?.['day']) {
+          this.setData({'ongoing.items':[]});
+          return;
+        }
+    
+        const contestId = this.data.ongoing.ongoingByTab?.['day'];
+        if (contestId == null) return;
+    
+        this.setData({
+          tab,
+          'ongoing.contestId': contestId,
+          'ongoing.showMyRow': false,
+          'ongoing.firstScreenCount': 0
+        });
+        this.loadOngoing(true);
+    
       });
     }
-    this.setData({tab:'day'});
+ 
   },
 
   switchTab(e) {
     const tab = e.currentTarget.dataset.k;       // 'day' | 'week' | 'month'
     this.setData({tab: tab});
-    if (this.data.tabDisabled?.[tab]) return;
-    if (tab === this.data.tab) return;
+    if (this.data.tabDisabled?.[tab]) {
+      this.setData({
+        'ongoing.items':[], 
+        'ongoing.showMyRow': false,
+      });
+    }
 
     const contestId = this.data.ongoing.ongoingByTab?.[tab];
     if (contestId == null) return;
-
+ 
     this.setData({
       tab,
       'ongoing.contestId': contestId,
@@ -279,7 +298,6 @@ Page({
         'ongoing.page': page + 1,
         'ongoing.loadingText': hasMore ? '上拉加载更多' : (this.data.ongoing.items.length ? '没有更多了' : '暂无数据')
       });
-
       if (reset && Number.isFinite(contestId) && Number(contestId) > 0) {
         try {
           const meRank = await api('/leaderboard/my-rank', 'GET', { contestId, scope });
