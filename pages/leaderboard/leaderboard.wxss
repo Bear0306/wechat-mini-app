@@ -115,10 +115,6 @@
 .tab2{position:relative;flex:1;text-align:center;padding:16rpx 0;color:#6b6f75;font-weight:600}
 .tab2.on{color:#19be6b}
 .underline{position:absolute;bottom:6rpx;left:25%;right:25%;height:6rpx;border-radius:6rpx;background:#19be6b}
-.tab2.disabled {
-  opacity: 0.4;
-  pointer-events: none;
-}
 
 /* Same layout as ongoing: header bar (like tabs2) + list + me-row */
 .ended-ranking-header {
@@ -146,6 +142,13 @@
   margin-bottom: 12rpx;
   box-shadow: 0 6rpx 14rpx rgba(0,0,0,.05);
   box-sizing: border-box;
+}
+.rank-row-green {
+  border:1rpx solid #bde7cd; 
+  background: #e9f9ef;
+  box-shadow: 0 8rpx 16rpx rgba(25,190,107,.10);
+  position: relative;
+  z-index: 1;
 }
 
 /* left: fixed width, center everything */
@@ -213,7 +216,7 @@
   margin: 0 20rpx;
   z-index: 10; 
   background:#e9f9ef; 
-  border:1rpx solid #bde7cd; 
+  border: 2rpx solid #19be6b;
 }
 
 /* ended cards */
@@ -281,10 +284,7 @@ button.pill::after{ border:none; }
   color: #3B82F6;
 }
 
-/* 二级 Tab 的禁用态（保留） */
-.tab2.disabled{ opacity:.4; pointer-events:none; }
-
-/* make tab disabled look muted */
+/* make tab disabled look muted (no pointer blocking; class kept if used elsewhere) */
 .loading{color:#999;text-align:center;margin:18rpx 0}
 
 /* modal */
@@ -296,3 +296,38 @@ button.pill::after{ border:none; }
 .snap-row{display:flex;justify-content:space-between;margin-top:8rpx}
 .snap-rank{width:60rpx;text-align:center}
 .modal-actions{display:flex;justify-content:center;margin-top:22rpx}
+
+/* === getUserProfile 授权弹窗样式 === */
+.modal-content {
+  margin: 20rpx 0 0 0;
+  font-size: 26rpx;
+  color: #444;
+  text-align: center;
+  line-height: 1.6;
+}
+.modal-btn {
+  min-width: 150rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  padding: 0 36rpx;
+  line-height: 64rpx;
+  height: 70rpx;
+  margin: 0 16rpx;
+  border: none;
+  outline: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-btn-confirm {
+  background: #19be6b;
+  color: #fff;
+  box-shadow: 0 6rpx 18rpx rgba(25,190,107,.23);
+}
+.modal-btn-cancel {
+  background: #f6f7f9;
+  color: #666;
+  border: 1rpx solid #e4e4e4;
+  box-shadow: none;
+}

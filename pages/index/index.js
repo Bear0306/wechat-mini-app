@@ -88,6 +88,9 @@ Page({
     applyShareOnLoad(this);
     const cnt = readDisclaimerCount();
     this.setData({ showDisclaimer: cnt < 3 });
+    const bgImagesLength = this.data.bgImages.length;
+    const bgCurrent = Math.floor(Math.random() * (bgImagesLength - 1)) + 1; // 1 ~ (bgImagesLength-1)
+    this.setData({ bgCurrent });
   },
 
   onShow() {
@@ -138,10 +141,6 @@ Page({
     } catch (err) {
       console.warn('Failed to fetch joinCount:', err);
     }
-  },
-
-  onBgChange(e) {
-    this.setData({ bgCurrent: e.detail.current });
   },
 
   // Wrapper with loading guard
@@ -258,7 +257,7 @@ Page({
     wx.setStorageSync('contestIdForLeaderboard', Number(id));
     wx.setStorageSync('contestTypeForLeaderboard', String(type || ''));
     wx.setStorageSync('contestStatusForLeaderboard', String(status || ''));
-    wx.setStorageSync('gotoEnded', status === 'FINALIZED' ? '1' : '');
+    wx.setStorageSync('gotoEnded', status === 'FINALIZED' || status === 'FINALIZING' ? '1' : '');
     wx.switchTab({ url: '/pages/leaderboard/leaderboard' });
   },
 

@@ -193,7 +193,7 @@ Page({
     wx.setStorageSync('contestIdForLeaderboard', Number(id));
     wx.setStorageSync('contestTypeForLeaderboard', String(type || ''));
     wx.setStorageSync('contestStatusForLeaderboard', String(status || ''));
-    wx.setStorageSync('gotoEnded', status === 'FINALIZED' ? '1' : '');
+    wx.setStorageSync('gotoEnded', status === 'FINALIZED' || status === 'FINALIZING' ? '1' : '');
     wx.switchTab({ url: '/pages/leaderboard/leaderboard' });
   },
 

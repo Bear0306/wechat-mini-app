@@ -6,12 +6,15 @@ const { shareData, shareMethods, applyShareOnLoad } = require('../../utils/share
 Page({
   data: {
     ...shareData,
+    showProfileModal: false,
+    gettingProfile: false, // 新增：获取用户信息loading
     seg: 'ongoing',        // ongoing | ended
     tab: 'day',            // day | week | month (only for ongoing)
     tabDisabled: { day: false, week: false, month: false },
     me: { 
       uid: app.globalData.userId, 
-      nickname: '', 
+      avata: '/assets/my/default_avatar.png',
+      nickname: '运动达人', 
       weekSteps: 0, 
       joinCount: app.globalData.joinCount, 
       prizeMultiplier: app.globalData.prizeMultiplier, 
@@ -104,6 +107,43 @@ Page({
     });
   },
 
+  onGetUserProfileConfirm(){
+    // 显示loading。可以用gettingProfile数据key，供前端WXML判断loading（如按钮禁用等）
+    this.setData({ gettingProfile: true });
+    wx.showLoading({ title: '正在获取信息...', mask: true });
+    wx.getUserProfile({
+      desc: '用于完善个人信息展示',
+      success: async (res) => {
+        const userInfo = {
+          avatarUrl: res.userInfo.avatarUrl,
+          nickName: res.userInfo.nickName
+        };
+        this.setData({'me.avatar': res.userInfo.avatarUrl});
+        this.setData({'me.nickname': res.userInfo.nickName});
+        this.setData({showProfileModal: false});
+        try {
+          await api('/me/updateProfile', 'POST', userInfo);
+        } catch (e) {
+          console.warn('Profile sync failed:', e);
+        } finally {
+          this.setData({ gettingProfile: false });
+          wx.hideLoading();
+        }
+      },
+      fail: () => {
+        this.closeProfileModal();
+        this.setData({ gettingProfile: false });
+        wx.hideLoading();
+      }
+    });
+  },
+
+  closeProfileModal(){
+    this.setData({'me.avatar': '/assets/my/default_avatar.png'});
+    this.setData({'me.nickname': '运动达人'});
+    this.setData({showProfileModal: false});
+  },
+
   computeTabLocks(contestType) {
     const type = String(contestType || '').toUpperCase(); // DAILY | WEEKLY | (empty)
     let disabled = { day: false, week: false, month: false };
@@ -177,10 +217,12 @@ Page({
         else this.reapplyFirstScreenLogic();
       });
     }
+    this.setData({tab:'day'});
   },
 
   switchTab(e) {
     const tab = e.currentTarget.dataset.k;       // 'day' | 'week' | 'month'
+    this.setData({tab: tab});
     if (this.data.tabDisabled?.[tab]) return;
     if (tab === this.data.tab) return;
 
@@ -457,6 +499,9 @@ Page({
     this.setData({ me, vip });
     app.globalData.joinCount = me.joinCount;
     this.setData({ 'modalHub.joinCount': me.joinCount });
+    if ((me.nickname === '' || !me.nickname) && (me.avatar === '' || !me.avatar)) {
+      this.setData({ showProfileModal: true });
+    }
   },
 
   /* ---------------- actions ---------------- */

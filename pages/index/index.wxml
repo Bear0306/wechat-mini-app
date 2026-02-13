@@ -1,13 +1,6 @@
 <view class="page">
   <!-- 背景图轮播 -->
-  <!-- No preload (first page); lazy-load=false to avoid unload/reload flicker when swiping -->
-  <swiper class="bg-swiper" autoplay circular interval="8000" duration="1000" current="{{bgCurrent}}" bindchange="onBgChange">
-    <block wx:for="{{bgImages}}" wx:key="index">
-      <swiper-item>
-        <image class="bg-img" mode="aspectFill" src="{{item.img}}" lazy-load="{{false}}"/>
-      </swiper-item>
-    </block>
-  </swiper>
+  <image class="bg-img" mode="aspectFill" src="{{bgImages[bgCurrent].img}}" lazy-load="{{false}}"/>
 
   <!-- 顶部声明横幅（滚动3次后停止并隐藏当天） -->
   <view class="disclaimer" wx:if="{{showDisclaimer}}">
@@ -23,24 +16,12 @@
     <!-- 今日步数卡片（居中大字） -->
     <view class="steps-card">
       <view class="steps-header">
-        <text class="steps-subtitle">今日总步数</text>
+        <text class="steps-subtitle">今日步数</text>
         <text class="steps-refresh" bindtap="fetchTodaySteps">⟳</text>
       </view>
       <view>
         <text class="steps-number">{{steps}}步</text>
       </view>
-      <text class="steps-window">此数据为06:00–20:00的数据</text>
-    </view>
-
-    <!-- 自定义轮播点 -->
-    <view class="custom-dots">
-      <block wx:for="{{bgImages}}" wx:key="img">
-        <image
-          class="dot-img"
-          src="{{index === bgCurrent ? '/assets/homepage/Dot1.png' : '/assets/homepage/Dot2.png'}}"
-          mode="aspectFit"
-        />
-      </block>
     </view>
 
     <!-- 设备图标横滑 -->

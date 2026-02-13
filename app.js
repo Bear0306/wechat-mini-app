@@ -6,14 +6,14 @@ function resolveApiBase() {
     const { miniProgram } = wx.getAccountInfoSync?.() || {};
     const env = miniProgram?.envVersion || 'develop';
     // Backend user APIs are under /api/user/* (wechat-mini-backend)
-    return 'https://yd.qiaq.online/api/user';
+    // return 'https://yd.qiaq.online/api/user';
     // if (env === 'release')  return 'https://yd.qiaq.online/api/user';
     // if (env === 'trial')    return 'https://hwls1.qiaq.online/api/user';
-    // return 'http://localhost:8080/api/user';
+    return 'http://localhost:8080/api/user';
   } catch (e) {
     console.warn('resolveApiBase failed, fallback to dev:', e);
-    // return 'http://localhost:8080/api/user';
-    return 'https://yd.qiaq.online/api/user';
+    return 'http://localhost:8080/api/user';
+    // return 'https://yd.qiaq.online/api/user';
   }
 }
 
@@ -22,21 +22,25 @@ function getReferralFromEnterOptions() {
     const enter = wx.getEnterOptionsSync?.();
     const raw = enter?.query?.ref || '';
     return raw ? decodeURIComponent(String(raw)).trim() : '';
-  } catch { return ''; }
+  } catch {
+    return '';
+  }
 }
 
 async function acceptReferralOnce(code) {
   if (!code) return;
+
   try {
     const res = await api('/referral/accept', 'POST', { code });
+
     if (res?.ok) {
-      try { wx.removeStorageSync('pendingRef'); } catch {}
+      wx.removeStorageSync('pendingRef');
     } else {
-      try { wx.setStorageSync('pendingRef', code); } catch {}
+      wx.setStorageSync('pendingRef', code);
       console.warn('accept referral not ok:', res);
     }
   } catch (e) {
-    try { wx.setStorageSync('pendingRef', code); } catch {}
+    wx.setStorageSync('pendingRef', code);
     console.warn('accept referral error:', e);
   }
 }
@@ -54,14 +58,15 @@ App({
   },
 
   onLaunch() {
-    // 1) capture ref early
+    // 1️⃣ Capture referral
     const refFromEntry = getReferralFromEnterOptions();
     const readyToUse = refFromEntry || wx.getStorageSync('pendingRef') || '';
+
     if (readyToUse) {
       wx.setStorageSync('pendingRef', readyToUse);
     }
 
-    // 2) restore cached creds (we will NOT accept referral based on old token)
+    // 2️⃣ Restore cached credentials
     const token = wx.getStorageSync('token');
     const userId = wx.getStorageSync('userId');
     const joinCount = wx.getStorageSync('joinCount');
@@ -72,24 +77,20 @@ App({
     if (joinCount) this.globalData.joinCount = joinCount;
     if (prizeMultiplier) this.globalData.prizeMultiplier = prizeMultiplier;
 
-    // 3) ensure login; if we have a ref, force a fresh wx.login so acceptance happens strictly after login success
-    const forceFreshLogin = !!refFromEntry;
-    
-    this.ensureLogin({ forceFreshLogin }).catch(err => {
+    // 3️⃣ Ensure login (NO profile request here)
+    this.ensureLogin({ forceFreshLogin: !!refFromEntry }).catch(err => {
       console.warn('Initial ensureLogin failed:', err);
     });
   },
 
   /**
-   * ensureLogin({ forceFreshLogin })
-   * - If forceFreshLogin: ALWAYS run wx.login, even if we already have a token.
-   * - Otherwise: reuse token if present; no referral acceptance occurs without a fresh login.
+   * Login only
+   * No profile permission here (must be user triggered)
    */
   ensureLogin(opts = {}) {
     const { forceFreshLogin = false } = opts;
 
     if (!forceFreshLogin && this.globalData.token) {
-      // No fresh login → DO NOT accept referral here (strict rule)
       return Promise.resolve(this.globalData.token);
     }
 
@@ -97,48 +98,49 @@ App({
       wx.login({
         success: async ({ code }) => {
           try {
-            // login payload (you can include ref or not; acceptance still happens AFTER token)
-            const payload = { code };
-            const res = await api('/auth/login', 'POST', payload);
+            const res = await api('/auth/login', 'POST', { code });
 
             const token = res?.token || '';
             const userId = res?.userId || '';
             const joinCount = res?.joinCount || 3;
             const prizeMultiplier = res?.prizeMultiplier || 1;
 
-            if (!token) throw new Error('No token returned from /auth/login');
+            if (!token) throw new Error('No token returned');
 
-            // persist token
+            // Save to global
             this.globalData.token = token;
             this.globalData.userId = userId;
             this.globalData.joinCount = joinCount;
             this.globalData.prizeMultiplier = prizeMultiplier;
-            try {
-              wx.setStorageSync('token', token);
-              if (userId) wx.setStorageSync('userId', userId);
-              if (joinCount) wx.setStorageSync('joinCount', joinCount);
-              if (prizeMultiplier) wx.setStorageSync('prizeMultiplier', prizeMultiplier);
-            } catch {}
+
+            // Persist
+            wx.setStorageSync('token', token);
+            if (userId) wx.setStorageSync('userId', userId);
+            wx.setStorageSync('joinCount', joinCount);
+            wx.setStorageSync('prizeMultiplier', prizeMultiplier);
+
+            // Accept referral AFTER login success
             const refCode = wx.getStorageSync('pendingRef') || '';
-            if (refCode){
-              // await this.acceptReferralOnce(refCode);
-              await acceptReferralOnce('R8F084225');
+            if (refCode) {
+              await acceptReferralOnce(refCode);
             }
+
             resolve(token);
           } catch (e) {
-            console.error('ensureLogin exchange failed:', e);
-            reject(e);
+            console.error('Login exchange failed:', e);
             wx.showToast({ title: '登录失败', icon: 'none' });
+            reject(e);
           }
         },
         fail: (e) => {
           console.error('wx.login failed:', e);
-          reject(e);
           wx.showToast({ title: '登录失败', icon: 'none' });
+          reject(e);
         }
       });
     });
   },
+
 
   async afterLogin(fn) {
     try {
@@ -150,12 +152,11 @@ App({
   },
 
   logout() {
-    try {
-      wx.removeStorageSync('token');
-      wx.removeStorageSync('userId');
-      wx.removeStorageSync('joinCount');
-      wx.removeStorageSync('prizeMultiplier');
-    } catch {}
+    wx.removeStorageSync('token');
+    wx.removeStorageSync('userId');
+    wx.removeStorageSync('joinCount');
+    wx.removeStorageSync('prizeMultiplier');
+
     this.globalData.token = '';
     this.globalData.userId = '';
     this.globalData.joinCount = 3;

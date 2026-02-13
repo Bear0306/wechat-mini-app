@@ -2,7 +2,7 @@
   <view class="disclaimer-card">
     <text class="disclaimer-text">为增强数据的准确性，请参赛者，每次运动结束、或次日打开数赛小程序</text>
   </view>
-<!-- 顶部个人信息 / Me card -->
+  <!-- 顶部个人信息 / Me card -->
   <view class="me-card">
     <view class="avatar-wrap">
       <!-- VIP 框 -->
@@ -13,7 +13,7 @@
           mode="widthFix"
         />
       <!-- 头像 -->
-      <image class="avatar" src="{{me.avatar || '/assets/my/default_avatar.png'}}" />
+      <image class="avatar" src="{{me.avatar}}" />
       <!-- 档位角标（可选） -->
       <view wx:if="{{vip.badge}}" class="vip-badge">{{vip.badge}}</view>
     </view>
@@ -22,7 +22,7 @@
       <view class="me-top">
         <view class="me-metrics">
           <view class="metric">
-            <text class="me-name">{{me.nickname || '我的昵称'}}</text>
+            <text class="me-name">{{me.nickname}}</text>
             <text class="metric-label">我的ID：{{me.uid || '--'}}</text>
           </view>
           <view class="metric">
@@ -45,27 +45,39 @@
     </view>
   </view>
 
+  <!-- getUserProfile 授权弹窗 -->
+  <view wx:if="{{showProfileModal}}" class="modal-mask">
+    <view class="modal">
+      <view class="modal-title">获取头像昵称权限</view>
+      <view class="modal-content">
+        <text>我们需要获得您的微信头像和昵称用于个人榜单展示，请授权获取~</text>
+      </view>
+      <view class="modal-actions">
+        <button class="modal-btn modal-btn-confirm" open-type="getUserProfile" onGetUserInfo="onGetUserProfileConfirm" bindtap="onGetUserProfileConfirm">
+          授权
+        </button>
+        <button class="modal-btn modal-btn-cancel" bindtap="closeProfileModal">
+          取消
+        </button>
+      </view>
+    </view>
+  </view>
+
   <!-- 一级：进行中 / 已结束 -->
   <view class="seg">
     <view class="seg-item {{seg==='ongoing'?'active':''}}" data-k="ongoing" bindtap="switchSeg">进行中</view>
     <view class="seg-item {{seg==='ended'?'active':''}}" data-k="ended" bindtap="switchSeg">已结束</view>
   </view>
 
-  <!-- 二级：日 / 周 / 月（仅进行中显示） -->
+  <!-- 二级：日 / 周 / 月（仅进行中显示；始终可点击） -->
   <view class="tabs2" wx:if="{{seg==='ongoing'}}">
-    <!-- <view class="tab2 {{tab==='day'?'on':''}}" data-k="day" bindtap="switchTab"> -->
-    <view class="tab2 {{tab==='day'?'on':''}} {{tabDisabled.day?'disabled':''}}"
-        data-k="day" bindtap="switchTab">
+    <view class="tab2 {{tab==='day'?'on':''}}" data-k="day" bindtap="switchTab">
       日榜 <view class="underline" wx:if="{{tab==='day'}}"></view>
     </view>
-    <!-- <view class="tab2 {{tab==='week'?'on':''}}" data-k="week" bindtap="switchTab"> -->
-    <view class="tab2 {{tab==='week'?'on':''}} {{tabDisabled.week?'disabled':''}}"
-        data-k="week" bindtap="switchTab">
+    <view class="tab2 {{tab==='week'?'on':''}}" data-k="week" bindtap="switchTab">
       周榜 <view class="underline" wx:if="{{tab==='week'}}"></view>
     </view>
-    <!-- <view class="tab2 {{tab==='month'?'on':''}}" data-k="month" bindtap="switchTab"> -->
-    <view class="tab2 {{tab==='month'?'on':''}} {{tabDisabled.month?'disabled':''}}"
-        data-k="month" bindtap="switchTab">
+    <view class="tab2 {{tab==='month'?'on':''}}" data-k="month" bindtap="switchTab">
       月榜 <view class="underline" wx:if="{{tab==='month'}}"></view>
     </view>
   </view>
@@ -73,7 +85,7 @@
   <!-- 进行中：榜单 -->
   <scroll-view wx:if="{{seg==='ongoing'}}" class="list" scroll-y bindscroll="onOngoingScroll">
     <block wx:for="{{ongoing.items}}" wx:key="rank">
-      <view class="rank-row">
+      <view class="rank-row {{item.rank <= 20 ? 'rank-row-green' : ''}}">
         <view class="rank-left">
           <view>
             <image wx:if="{{item.rank <= 3}}" class="medal"
@@ -95,7 +107,7 @@
   </scroll-view>
 
   <!-- “我的名次”：首屏外时底部固定显示，滚动后隐藏 -->
-  <view wx:if="{{ongoing.showMyRow && seg==='ongoing' && ongoing.my}}" class="rank-row me-row">
+  <view wx:if="{{ongoing.showMyRow && seg==='ongoing' && ongoing.my}}" class="rank-row me-row {{ongoing.my.rank <= 20 ? 'rank-row-green' : ''}}">
     <view class="rank-left">
         <view>
           <image wx:if="{{ongoing.my.rank <= 3}}" class="medal"
@@ -124,7 +136,7 @@
       </view>
       <scroll-view class="list ended-ranking-list" scroll-y bindscroll="onEndedRankingScroll">
         <block wx:for="{{ended.rankingItems}}" wx:key="rank">
-          <view class="rank-row">
+          <view class="rank-row {{item.rank <= 20 ? 'rank-row-green' : ''}}">
             <view class="rank-left">
               <image wx:if="{{item.rank <= 3}}" class="medal"
                 src="{{item.rank == 1 ? '/assets/my/Ranking1.png' : (item.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />
@@ -144,7 +156,7 @@
         <view wx:elif="{{!ended.rankingItems.length && !ended.rankingLoading}}" class="loading">暂无排名</view>
       </scroll-view>
       <!-- 我的名次：不在首屏时底部固定显示，滚动后隐藏 -->
-      <view wx:if="{{ended.showMyRow && ended.my}}" class="rank-row me-row">
+      <view wx:if="{{ended.showMyRow && ended.my}}" class="rank-row me-row {{ended.my.rank <= 20 ? 'rank-row-green' : ''}}">
         <view class="rank-left">
           <image wx:if="{{ended.my.rank <= 3}}" class="medal"
             src="{{ended.my.rank == 1 ? '/assets/my/Ranking1.png' : (ended.my.rank == 2 ? '/assets/my/Ranking2.png' : '/assets/my/Ranking3.png')}}" />
