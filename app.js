@@ -52,6 +52,8 @@ App({
     joinCount: 0,
     prizeMultiplier: 1,
     apiBase: resolveApiBase(),
+    serverAddress: 'https://yd.qiaq.online',
+    // serverAddress: 'http://192.168.1.7:8080',
     cashed_assets: {
       share: null
     }

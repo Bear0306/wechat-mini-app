@@ -94,11 +94,24 @@
 .me-metrics{ display:flex; gap: 15rpx; }
 .metric{ display:flex; flex-direction:column; align-items:center; margin-right: 30rpx;}
 .metric-num{ color:#19be6b; font-weight:800; font-size: 36rpx; line-height: 36rpx; }
-.metric-label{ color:#8b8e93; font-size: 22rpx; margin-top: 10rpx;}
+.metric-label{ color:#8b8e93; font-size: 22rpx;  margin-top: 10rpx;}
 .metric-right {
   align-items: right;
 }
 .me-sub{ margin-top: 6rpx; color:#8b8e93; font-size: 22rpx; }
+
+.id-row {
+  display: flex;
+  align-items: center; /* vertical center alignment */
+  gap: 20rpx;
+}
+.eye-icon {
+  margin-top: 10rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+
 
 .vip-line{ margin-top: 8rpx; font-size: 24rpx; }
 .vip-line.muted{ color:#9aa0a6; }
@@ -263,7 +276,7 @@
   font-size: 30rpx; 
   font-weight:600;
 }
-button.pill::after{ border:none; }
+button.pill.after{ border:none; }
 
 /* Solid blue – 查看排名 */
 .pill-blue{
@@ -330,4 +343,69 @@ button.pill::after{ border:none; }
   color: #666;
   border: 1rpx solid #e4e4e4;
   box-shadow: none;
+}
+
+.preview{
+  width:150rpx;
+  height:150rpx;
+  border-radius:50%;
+  display:block;
+  margin:20rpx auto;
+  z-index: 1000;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-top: 40rpx;
+  width: 80%;
+}
+
+/* shared button style */
+.btn {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+
+/* cancel button */
+.cancel {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+/* save button */
+.save {
+  background-color: #07c160; /* WeChat green */
+  color: white;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center horizontally */
+  margin-top: 40rpx;
+}
+
+/* Avatar */
+.preview {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 4rpx solid #ddd;
+  margin-bottom: 30rpx;
+}
+
+/* Input box */
+.name-input {
+  width: 70%;
+  height: 80rpx;
+  border: 2rpx solid #ccc;
+  border-radius: 12rpx;
+  text-align: center;    /* text centered */
+  font-size: 28rpx;
+  padding: 0 20rpx;
+  background-color: #fff;
 }

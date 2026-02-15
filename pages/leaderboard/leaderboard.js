@@ -1,19 +1,24 @@
 // pages/leaderboard/leaderboard.js
 const app = getApp();
 const { api } = require('../../utils/api');
+const { getAuthHeader } = require('../../utils/api');
 const { shareData, shareMethods, applyShareOnLoad } = require('../../utils/share');
+
+let showUidTimeout = null; // 新增自动隐藏uid的定时器变量
 
 Page({
   data: {
     ...shareData,
-    showProfileModal: false,
-    gettingProfile: false, // 新增：获取用户信息loading
+    showUid: false,
+    showAvatarModal: false,
+    tempAvatar: '',
+    tempName: '',
     seg: 'ongoing',        // ongoing | ended
     tab: 'day',            // day | week | month (only for ongoing)
     tabDisabled: { day: false, week: false, month: false },
     me: { 
       uid: app.globalData.userId, 
-      avata: '/assets/my/default_avatar.png',
+      avatar: '/assets/my/default_avatar.png',
       nickname: '运动达人', 
       weekSteps: 0, 
       joinCount: app.globalData.joinCount, 
@@ -59,7 +64,24 @@ Page({
     // ... keep your existing onLoad work here (if any)
   },
 
+  onTabItemTap() {
+    if (showUidTimeout) {
+      clearTimeout(showUidTimeout);
+      showUidTimeout = null;
+    }
+    this.setData({
+      showUid: false
+    })
+  },
+
   onShow() {
+    // 只要每次回到此页面，都清理showUid
+    if (showUidTimeout) {
+      clearTimeout(showUidTimeout);
+      showUidTimeout = null;
+    }
+    this.setData({ showUid: false });
+
     app.afterLogin(async () => {
       const handedRaw = wx.getStorageSync('contestIdForLeaderboard');
       const handed = handedRaw === '' || handedRaw == null ? null : Number(handedRaw);
@@ -107,43 +129,133 @@ Page({
     });
   },
 
-  onGetUserProfileConfirm(){
-    // 显示loading。可以用gettingProfile数据key，供前端WXML判断loading（如按钮禁用等）
-    this.setData({ gettingProfile: true });
-    wx.showLoading({ title: '正在获取信息...', mask: true });
-    wx.getUserProfile({
-      desc: '用于完善个人信息展示',
-      success: async (res) => {
-        const userInfo = {
-          avatarUrl: res.userInfo.avatarUrl,
-          nickName: res.userInfo.nickName
-        };
-        this.setData({'me.avatar': res.userInfo.avatarUrl});
-        this.setData({'me.nickname': res.userInfo.nickName});
-        this.setData({showProfileModal: false});
-        try {
-          await api('/me/updateProfile', 'POST', userInfo);
-        } catch (e) {
-          console.warn('Profile sync failed:', e);
-        } finally {
-          this.setData({ gettingProfile: false });
-          wx.hideLoading();
-        }
-      },
-      fail: () => {
-        this.closeProfileModal();
-        this.setData({ gettingProfile: false });
-        wx.hideLoading();
-      }
+  openAvatarModal() {
+    this.setData({
+      showAvatarModal: true,
+      tempAvatar: this.data.me.avatar,
+      tempName: this.data.me.nickname
     });
   },
-
-  closeProfileModal(){
-    this.setData({'me.avatar': '/assets/my/default_avatar.png'});
-    this.setData({'me.nickname': '运动达人'});
-    this.setData({showProfileModal: false});
+  closeAvatarModal() {
+    this.setData({
+      showAvatarModal: false,
+      tempAvatar: '',
+      tempName: ''
+    });
+  },
+  chooseAvatar() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      success: res => {
+        const filePath = res.tempFiles[0].tempFilePath
+        this.setData({
+          tempAvatar: filePath
+        })
+      }
+    })
   },
 
+  onNameInput(e) {
+    this.setData({
+      tempName: e.detail.value
+    })
+  },
+
+  // Deprecated: don't upload avatar to backend, just keep locally
+  // uploadAvatar(filePath) {
+  //   return new Promise((resolve, reject) => {
+  //     wx.uploadFile({
+  //       url: app.globalData.serverAddress + '/api/user/me/uploadAvatar',
+  //       filePath: filePath,
+  //       name: 'file',
+  //       header: {
+  //         ...getAuthHeader(), // 添加token认证
+  //       },
+  //       success: res => {
+  //         try {
+  //           const data = JSON.parse(res.data)
+  //           resolve(data.avatarUrl) // return image URL
+  //         } catch (err){ 
+  //           reject(new Error('上传失败：返回解析错误'));
+  //         }
+  //       },
+  //       fail: err => reject(err)
+  //     })
+  //   })
+  // },
+
+  async saveProfile() {
+    wx.showLoading({ title: '正在保存中...', mask: true });
+
+    let avatarUrl = this.data.me.avatar;
+
+    // If avatar changed, save image to persistent storage, and store that path for future loads
+    if (!!this.data.tempAvatar && this.data.tempAvatar !== this.data.me.avatar) {
+      avatarUrl = this.data.tempAvatar;
+
+      try {
+        // Always use wx.saveFile to persist image to local file system (persistent after reboot)
+        // saveFileSync exists, but saveFile is preferred for async (but here we stay sync if available)
+        let permanentPath = '';
+        // wx.saveFile is deprecated soon; use wx.getFileSystemManager().saveFile instead
+        try {
+          const fs = wx.getFileSystemManager();
+          // saveFile is a synchronous method, but run in a try-catch for safety
+          permanentPath = fs.saveFileSync
+            ? fs.saveFileSync(avatarUrl, `${wx.env.USER_DATA_PATH}/avatar_${Date.now()}.png`)
+            : avatarUrl;
+        } catch (e) {
+          permanentPath = avatarUrl; // fallback to the original path on error
+        }
+        console.log(permanentPath);
+        wx.setStorageSync('leaderboard_local_avatar', permanentPath);
+        avatarUrl = permanentPath;
+      } catch (e) {
+        // fallback: still store temp path
+        wx.setStorageSync('leaderboard_local_avatar', avatarUrl);
+      }
+    }
+
+    // Use nickname change as usual
+    const userInfo = {
+      // avatarUrl is kept as the local path; backend will NOT have latest avatar
+      avatarUrl: avatarUrl,
+      nickName: this.data.me.nickname !== this.data.tempName && !!this.data.tempName && this.data.tempName!='' ? this.data.tempName : this.data.me.nickname
+    };
+
+    this.setData({'me.avatar': userInfo.avatarUrl});
+    this.setData({'me.nickname': userInfo.nickName});
+    this.setData({showAvatarModal: false});
+
+    // Only update nickname remotely (DO NOT upload avatarUrl to backend)
+    try {
+      await api('/me/updateProfile', 'POST', {
+        nickName: userInfo.nickName
+        // no avatarUrl here
+      });
+    } catch (e) {
+      console.warn('Profile sync failed:', e);
+    } finally {
+      wx.hideLoading();
+    }
+  },
+
+  switchIdShown(){
+    // 切换showUid时做延时自动隐藏
+    let newShowUid = !this.data.showUid;
+    this.setData({showUid: newShowUid});
+    if (showUidTimeout) {
+      clearTimeout(showUidTimeout);
+      showUidTimeout = null;
+    }
+    if (newShowUid) {
+      showUidTimeout = setTimeout(() => {
+        this.setData({showUid: false});
+        showUidTimeout = null;
+      }, 7000); // 7秒后自动隐藏
+    }
+  },
 
   computeTabLocks(contestType) {
     const type = String(contestType || '').toUpperCase(); // DAILY | WEEKLY | (empty)
@@ -302,6 +414,8 @@ Page({
         try {
           const meRank = await api('/leaderboard/my-rank', 'GET', { contestId, scope });
           if (meRank && typeof meRank.rank === 'number') {
+            const localAvatar = wx.getStorageSync('leaderboard_local_avatar');
+            meRank.avater = localAvatar || '';
             this.setData({ 'ongoing.my': meRank });
           } else {
             this.setData({ 'ongoing.my': null });
@@ -422,6 +536,8 @@ Page({
       const list = listRes?.list || [];
       const item = (this.data.ended.items || []).find(i => i.contestId === contestId);
       const title = item ? item.title : ('赛事 #' + contestId);
+      const localAvatar = wx.getStorageSync('leaderboard_local_avatar');
+      meRes.avatar = localAvatar || '';
       this.setData({
         'ended.rankingItems': list,
         'ended.rankingTitle': title,
@@ -499,7 +615,16 @@ Page({
   },
 
   async loadMeAndVip() {
-    const me = await api('/me/getInfo', 'GET');
+    let me = await api('/me/getInfo', 'GET');
+
+    // Try to recover the locally saved avatar path, if any
+    try {
+      const localAvatar = wx.getStorageSync('leaderboard_local_avatar');
+      if (localAvatar) {
+        me.avatar = localAvatar;
+      }
+    } catch (e) {}
+
     const membership = await api('/membership/me', 'GET');
   
     const meta = VIP_META[membership?.tier || 'NONE'];
@@ -517,7 +642,6 @@ Page({
     this.setData({ me, vip });
     app.globalData.joinCount = me.joinCount;
     this.setData({ 'modalHub.joinCount': me.joinCount });
-    console.log(me.nickname, me.avata);
     if ((me.nickname === '' || !me.nickname) && (me.avatar === '' || !me.avatar)) {
       this.setData({ showProfileModal: true });
     }

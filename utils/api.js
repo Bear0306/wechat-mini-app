@@ -75,4 +75,4 @@ function api(path, method = 'GET', data = {}) {
   });
 }
 
-module.exports = { api };
+module.exports = { api, getAuthHeader };

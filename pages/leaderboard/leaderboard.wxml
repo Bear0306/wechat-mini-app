@@ -6,24 +6,53 @@
   <view class="me-card">
     <view class="avatar-wrap">
       <!-- VIP 框 -->
-        <image
+        <!-- <image
           wx:if="{{vip.tier !== 'NONE'}}"
           class="vip-frame {{vip.class}}"
-          src="{{vip.frame}}"
+          src="{{vip.frame}}" 
           mode="widthFix"
-        />
+        /> -->
       <!-- 头像 -->
-      <image class="avatar" src="{{me.avatar}}" />
+      <image class="avatar" src="{{me.avatar || '/assets/my/default_avatar.png'}}" bindtap="openAvatarModal" />
       <!-- 档位角标（可选） -->
-      <view wx:if="{{vip.badge}}" class="vip-badge">{{vip.badge}}</view>
+      <!-- <view wx:if="{{vip.badge}}" class="vip-badge">{{vip.badge}}</view> -->
     </view>
+
+    <!-- floating modal -->
+    <view wx:if="{{showAvatarModal}}" class="modal-mask">
+      <view class="modal profile-box">
+
+        <image class="preview"
+         src="{{tempAvatar || me.avatar || '/assets/my/default_avatar.png'}}"
+         bindtap="chooseAvatar" />
+
+        <input class="name-input"
+              placeholder="请输入用户名"
+              value="{{tempName}}"
+              bindinput="onNameInput" />
+
+        <view class="btn-group">
+          <button bindtap="closeAvatarModal">取消</button>
+          <button type="primary" bindtap="saveProfile">保存</button>
+        </view>
+
+      </view>
+    </view>
+
 
     <view class="me-main">
       <view class="me-top">
         <view class="me-metrics">
           <view class="metric">
-            <text class="me-name">{{me.nickname}}</text>
-            <text class="metric-label">我的ID：{{me.uid || '--'}}</text>
+            <text class="me-name">{{me.nickname || '运动达人'}}</text>
+            <view wx:if="{{showUid}}" class="id-row">
+              <text class="metric-label">ID：{{me.uid || '--'}}</text>
+              <image class="eye-icon" src="/assets/icons/hidden.png" bindtap="switchIdShown"/>
+            </view>
+            <view wx:else class="id-row">
+              <text class="metric-label">ID：***</text>
+              <image class="eye-icon" src="/assets/icons/eye.png" bindtap="switchIdShown"/>
+            </view>
           </view>
           <view class="metric">
             <text class="metric-num">{{me.weekSteps || 0}}</text>
@@ -37,29 +66,11 @@
       </view>
 
       <!-- 会员行 -->
-      <view wx:if="{{vip.tier !== 'NONE'}}" class="vip-line">
+      <!-- <view wx:if="{{vip.tier !== 'NONE'}}" class="vip-line">
         <text class="vip-name" style="color: {{vip.color}};">{{vip.name}}</text>
         <text class="vip-date" style="color: {{vip.color}};">（{{vip.start}}-{{vip.end}}）</text>
       </view>
-      <view wx:else class="vip-line muted">未开通会员</view>
-    </view>
-  </view>
-
-  <!-- getUserProfile 授权弹窗 -->
-  <view wx:if="{{showProfileModal}}" class="modal-mask">
-    <view class="modal">
-      <view class="modal-title">获取头像昵称权限</view>
-      <view class="modal-content">
-        <text>我们需要获得您的微信头像和昵称用于个人榜单展示，请授权获取~</text>
-      </view>
-      <view class="modal-actions">
-        <button class="modal-btn modal-btn-confirm" open-type="getUserProfile" onGetUserInfo="onGetUserProfileConfirm" bindtap="onGetUserProfileConfirm">
-          授权
-        </button>
-        <button class="modal-btn modal-btn-cancel" bindtap="closeProfileModal">
-          取消
-        </button>
-      </view>
+      <view wx:else class="vip-line muted">未开通会员</view> -->
     </view>
   </view>
 
@@ -94,7 +105,8 @@
         </view>
         <text class="rank-num rank-{{item.rank}}">{{item.rank}}</text>
         <view class="rank-center">
-          <image class="row-avatar" src="{{ item.avatar || '/assets/my/default_avatar.png' }}" />
+          <image wx:if='{{item.userId === me.uid}}' class="row-avatar" src="{{ me.avatar || '/assets/my/default_avatar.png' }}" />
+          <image wx:if='{{item.userId !== me.uid}}' class="row-avatar" src="{{ item.avatar || '/assets/my/default_avatar.png' }}" />
           <text class="row-name">{{ item.name }}</text>
         </view>
         <view class="rank-right">
@@ -143,7 +155,8 @@
             </view>
             <text class="rank-num rank-{{item.rank}}">{{item.rank}}</text>
             <view class="rank-center">
-              <image class="row-avatar" src="{{ item.avatar || '/assets/my/default_avatar.png' }}" />
+              <image wx:if='{{item.userId === me.uid}}' class="row-avatar" src="{{ me.avatar || '/assets/my/default_avatar.png' }}" />
+              <image wx:if='{{item.userId !== me.uid}}' class="row-avatar" src="{{ item.avatar || '/assets/my/default_avatar.png' }}" />
               <text class="row-name">{{ item.name }}</text>
             </view>
             <view class="rank-right">

@@ -24,7 +24,7 @@
       </view>
       <view class="row-flex">
         <view class="row-left">
-          <view class="row-desc">每推荐3人首次成功注册，推荐者可获得一次奖励翻2倍+1次挑战次数</view>
+          <view class="row-desc">每推荐3人首次成功注册，推荐者可获得<!-- 一次奖励翻2倍-->+1次挑战次数</view>
         </view>
         <view class="row-right">
           <text class="pill pill-orange" bindtap="onShare">立即分享</text>
@@ -33,7 +33,7 @@
     </view>
 
     <!-- 购买会员 -->
-    <view class="row row-flex">
+    <!-- <view class="row row-flex">
       <view class="row-left">
         <view class="row-title">
           <text>购买会员<text class="link brown">（当前为{{tierText}}）</text></text>
@@ -43,7 +43,7 @@
       <view class="row-right">
         <text class="pill pill-brown" bindtap="onBuy">立即购买</text>
       </view>
-    </view>
+    </view> -->
 
     <!-- center close -->
     <view class="close-wrap" bindtap="close">

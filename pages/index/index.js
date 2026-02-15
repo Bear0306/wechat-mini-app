@@ -112,7 +112,7 @@ Page({
       share1: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/1.jpg',
       share2: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/2.jpg',
       share3: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/3.jpg',
-      share4: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/4.jpg',
+      share4: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/4.jpg', 
       share5: 'https://btcdn.qiaq.online/ydcos/cdn_assets/share/5.jpg'
     });
   },
